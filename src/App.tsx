@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./pages/Login";
+import SignUpPage from "./pages/SignUp";
 
 // Desc: Main App component for the application.
 function App() {
@@ -22,6 +23,12 @@ function App() {
 					path="login"
 					element={<LoginPage />}
 				/>
+
+				<Route
+					path="signup"
+					element={<SignUpPage />}
+				/>
+
 				{/* 404 */}
 				<Route
 					path="*"

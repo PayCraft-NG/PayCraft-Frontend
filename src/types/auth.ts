@@ -11,3 +11,15 @@ export interface LoginResponse {
 	accessTokenValidityTime: string;
 	refreshTokenValidityTime: string;
 }
+
+export interface SignUpResponse {
+	statusCode: string;
+	statusMessage: string;
+	data: {
+		firstName: string;
+		lastName: string;
+		emailAddress: string;
+		phoneNumber: string;
+		jobTitle: string;
+	};
+}
