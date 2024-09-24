@@ -23,7 +23,7 @@ export async function createCompany(
 ) {
 	try {
 		const res = await apiClient.post<IResponse<Company>>(
-			"/employer/create",
+			"/company/create",
 			payload,
 			{
 				params: { employerId },

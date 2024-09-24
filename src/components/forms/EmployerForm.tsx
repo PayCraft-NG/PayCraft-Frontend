@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useCreateEmployer } from "@/hooks/useCreateEmployer";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	firstName: z.string().min(1, { message: "Required" }),
@@ -45,6 +46,16 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 	} = useForm<EmployerFormValues>({
 		mode: "onChange",
 		resolver: zodResolver(schema),
+		defaultValues: {
+			firstName: "",
+			lastName: "",
+			emailAddress: "",
+			bvn: "",
+			password: "",
+			jobTitle: "",
+			phoneNumber: "",
+			streetAddress: "",
+		},
 	});
 
 	const checkIfFieldsAreValid = (fields: (keyof EmployerFormValues)[]) => {
@@ -54,11 +65,19 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 		});
 	};
 
+	const navigate = useNavigate();
+
 	const { mutate, isPending } = useCreateEmployer();
 
 	const onSubmit = (data: EmployerFormValues) => {
-		mutate(data, { onSuccess: () => setPage(2) });
+		mutate(data, {
+			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
+		});
 	};
+
+	// useEffect(() => {
+	// 	trigger(["firstName", "lastName", "emailAddress", "password"]);
+	// }, [trigger]);
 
 	const renderInput = (
 		name: keyof EmployerFormValues,
@@ -88,6 +107,7 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			)}
 		</div>
 	);
+
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
