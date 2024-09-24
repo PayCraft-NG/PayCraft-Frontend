@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useLoginUser } from "@/hooks/useLoginUser";
 import { LoaderCircle } from "lucide-react";
+import { useLoginUser } from "@/hooks/useLoginUser";
 
 const schema = z.object({
 	emailAddress: z.string().email(),

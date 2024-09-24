@@ -1,14 +1,27 @@
 import Container from "@/components/Container";
 import MiniNav from "@/components/MiniNav";
-import EmployerForm from "@/components/forms/EmployerForm";
+import CompanyForm from "@/components/forms/CompanyForm";
 import AuthLayout from "@/layout/AuthLayout";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 
-const pages = [{ title: "Create an Account" }, { title: "Personal Info" }];
+const pages = [{ title: "Setup a Company" }, { title: "Company Info" }];
 
-const SignUpPage = () => {
+const CreateCompany = () => {
 	const [currentPage, setCurrentPage] = useState(0);
+	const { employerId } = useParams();
+
+	if (!employerId) {
+		console.log("No employerId, redirecting to signup");
+		return (
+			<Navigate
+				to="/signup"
+				replace
+			/>
+		);
+	}
+
 	return (
 		<AuthLayout>
 			<Container className="mt-11 sm:mb-14 flex justify-center">
@@ -19,7 +32,8 @@ const SignUpPage = () => {
 						setPage={setCurrentPage}
 					/>
 					<AnimatePresence mode="popLayout">
-						<EmployerForm
+						<CompanyForm
+							employerId={employerId}
 							currentPage={currentPage}
 							setPage={setCurrentPage}
 						/>
@@ -30,4 +44,4 @@ const SignUpPage = () => {
 	);
 };
 
-export default SignUpPage;
+export default CreateCompany;
