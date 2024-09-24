@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import CreateCompany from "./pages/CreateCompany";
 import LoginPage from "./pages/Login";
 import SignUpPage from "./pages/SignUp";
 
@@ -27,6 +28,16 @@ function App() {
 				<Route
 					path="signup"
 					element={<SignUpPage />}
+				/>
+
+				<Route
+					path="/company/:employerId?"
+					element={<CreateCompany />}
+				/>
+
+				<Route
+					path="dashboard"
+					element={<h1>Dashboard</h1>}
 				/>
 
 				{/* 404 */}

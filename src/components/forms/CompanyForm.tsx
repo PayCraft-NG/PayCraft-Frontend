@@ -1,8 +1,10 @@
+import { useCreateCompany } from "@/hooks/useCreateCompany";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { motion } from "framer-motion";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import {
 	Select,
@@ -11,7 +13,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-import { Button } from "../ui/button";
 
 const companySchema = z.object({
 	companyName: z.string().min(1, { message: "Required" }),
@@ -32,11 +33,14 @@ export type CompanyFormValues = z.infer<typeof companySchema>;
 const companySizeOptions = ["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"];
 
 interface Props {
+	employerId: string;
 	currentPage: number;
 	setPage: (page: number) => void;
 }
 
-const CompanyForm = ({ currentPage, setPage }: Props) => {
+const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
+	const { mutate: createCompany } = useCreateCompany(employerId);
+
 	const {
 		register,
 		control,
@@ -49,6 +53,7 @@ const CompanyForm = ({ currentPage, setPage }: Props) => {
 
 	const onSubmit = (data: CompanyFormValues) => {
 		console.log(data);
+		createCompany(data);
 	};
 
 	const renderInput = (
@@ -83,9 +88,9 @@ const CompanyForm = ({ currentPage, setPage }: Props) => {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="grid gap-x-8"
+			className="grid gap-x-8 max-w-[967px] mx-auto"
 		>
-			{currentPage === 2 && (
+			{currentPage === 0 && (
 				<motion.div
 					key="form3"
 					className="grid gap-x-8 gap-y-4"
@@ -124,13 +129,6 @@ const CompanyForm = ({ currentPage, setPage }: Props) => {
 					</div>
 					<div className="flex justify-between w-full">
 						<Button
-							type="button"
-							onClick={() => setPage(1)}
-							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base"
-						>
-							Prev
-						</Button>
-						<Button
 							type="submit"
 							disabled={!isValid}
 							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base"
@@ -140,7 +138,7 @@ const CompanyForm = ({ currentPage, setPage }: Props) => {
 					</div>
 				</motion.div>
 			)}
-			{currentPage === 3 && (
+			{currentPage === 1 && (
 				<motion.div
 					key="form4"
 					className="grid gap-x-8 gap-y-4"
@@ -212,7 +210,7 @@ const CompanyForm = ({ currentPage, setPage }: Props) => {
 					<div className="flex justify-between w-full">
 						<Button
 							type="button"
-							onClick={() => setPage(2)}
+							onClick={() => setPage(0)}
 							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base"
 						>
 							Prev

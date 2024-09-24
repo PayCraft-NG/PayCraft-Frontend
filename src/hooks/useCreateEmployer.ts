@@ -7,6 +7,7 @@ import { useToast } from "./use-toast";
 export const useCreateEmployer = () => {
 	const { toast } = useToast();
 	const navigate = useNavigate();
+
 	return useMutation({
 		mutationFn: createEmployer,
 		onSuccess: (res) => {
@@ -14,8 +15,8 @@ export const useCreateEmployer = () => {
 				toast({
 					description: res.statusMessage,
 				});
+				navigate("/login");
 			}
-			navigate("/login");
 		},
 	});
 };

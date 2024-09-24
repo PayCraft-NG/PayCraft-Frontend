@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useCreateEmployer } from "@/hooks/useCreateEmployer";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	firstName: z.string().min(1, { message: "Required" }),
@@ -54,10 +55,14 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 		});
 	};
 
+	const navigate = useNavigate();
+
 	const { mutate, isPending } = useCreateEmployer();
 
 	const onSubmit = (data: EmployerFormValues) => {
-		mutate(data, { onSuccess: () => setPage(2) });
+		mutate(data, {
+			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
+		});
 	};
 
 	const renderInput = (
