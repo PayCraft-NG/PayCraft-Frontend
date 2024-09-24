@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { loginUser } from "@/actions/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useToast } from "./use-toast";
 import { useAuthActions } from "@/store/auth";
+import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "./use-toast";
 
 export const useLoginUser = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
 
 	const { toast } = useToast();
 
@@ -29,7 +28,7 @@ export const useLoginUser = () => {
 				sameSite: true,
 				secure: true,
 			});
-			navigate(location.state?.from?.pathname || "/dashboard", {
+			navigate("/dashboard", {
 				replace: true,
 			});
 		},
