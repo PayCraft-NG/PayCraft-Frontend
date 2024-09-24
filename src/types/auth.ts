@@ -1,4 +1,4 @@
-export interface IResponse<T> {
+export interface IResponse<T = null> {
 	statusCode: string;
 	statusMessage: string;
 	data: T;
@@ -12,14 +12,11 @@ export interface LoginResponse {
 	refreshTokenValidityTime: string;
 }
 
-export interface SignUpResponse {
-	statusCode: string;
-	statusMessage: string;
-	data: {
-		firstName: string;
-		lastName: string;
-		emailAddress: string;
-		phoneNumber: string;
-		jobTitle: string;
-	};
+export interface ServerError {
+	apiPath: string;
+	errorCode: string;
+	errorMsg: string;
+	errorTime: string;
 }
+
+export type APIError = IResponse<Record<string, string>> | ServerError;

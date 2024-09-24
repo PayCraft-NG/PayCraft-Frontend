@@ -1,50 +1,55 @@
-import React, { FC } from "react";
-import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
+import { FC } from "react";
 
 interface Props {
-	pages: number[];
+	pages: { title: string }[];
 	currentPage: number;
 	setPage: (page: number) => void;
 }
 
 const MiniNav: FC<Props> = ({ pages, currentPage, setPage }) => {
 	return (
-		<div className="flex justify-center items-center gap-x-4 sm:gap-x-3 w-[90%] mx-auto shrink-0">
-			{pages.map((page) => (
-				<React.Fragment key={page}>
-					<div
-						onClick={() => setPage(page)}
-						className="flex items-center"
+		<header className="flex gap-x-9 sm:gap-x-5 lg:gap-x-8 items-center justify-between mb-8 sm:mb-12 w-fit mx-auto">
+			{pages.map(({ title }, index) => (
+				<>
+					<button
+						key={title}
+						onClick={() => setPage(index)}
+						className="text-sm lg:text-base font-semibold focus:outline-none flex items-center gap-x-2 w-fit"
 					>
-						<button
-							className={`rounded-full size-[40px] mx-auto font-DMSans self-start ${
-								currentPage === page
-									? "bg-black text-white"
-									: "bg-[#EFF0F6] text-[#6F6C90]"
-							} transition-colors duration-300`}
+						<span
+							className={cn(
+								"size-10 md:size-8 justify-center items-center rounded-full bg-primary inline-flex shrink-0 text-white transition-colors duration-150",
+								currentPage !== index &&
+									"bg-white border-[1.5px] text-muted-foreground"
+							)}
 						>
-							{page}
-						</button>
-					</div>
-					{page !== pages.length && (
-						<div className="relative max-w-[250px] w-full bg-[#EFF0F6] rounded-[40px] h-[6px]">
-							<motion.div
-								initial={{ width: "50%" }}
-								animate={{
-									width:
-										page === currentPage
-											? "50%"
-											: page < currentPage
-											? "100%"
-											: "0%",
-								}}
-								className="bg-black rounded-[40px] h-full absolute"
-							></motion.div>
-						</div>
+							{index + 1}
+						</span>
+						<span
+							className={cn(
+								"text-primary tracking-wide transition-colors duration-150 text-start hidden sm:block",
+								currentPage !== index && "text-muted-foreground"
+							)}
+						>
+							{title}
+						</span>
+					</button>
+					{index !== pages.length - 1 && (
+						<ChevronRight
+							key={title + index}
+							className={cn(
+								"hidden md:block",
+								currentPage !== index
+									? "stroke-muted-foreground"
+									: "stroke-primary"
+							)}
+						/>
 					)}
-				</React.Fragment>
+				</>
 			))}
-		</div>
+		</header>
 	);
 };
 
