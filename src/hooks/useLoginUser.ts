@@ -8,7 +8,6 @@ import { useCookies } from "react-cookie";
 
 export const useLoginUser = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
 
 	const { toast } = useToast();
 
