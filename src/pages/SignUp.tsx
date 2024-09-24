@@ -1,52 +1,41 @@
+import Container from "@/components/Container";
 import MiniNav from "@/components/MiniNav";
-import SignUpForm from "@/components/forms/SignUpForm";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import EmployerForm from "@/components/forms/EmployerForm";
+import AuthLayout from "@/layout/AuthLayout";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
+const pages = [
+	{ title: "Create an Account" },
+	{ title: "Personal Info" },
+	// { title: "Setup a Company" },
+	// { title: "Company Info" },
+];
 
 const SignUpPage = () => {
-	const [page, setPage] = useState(1);
-
+	const [currentPage, setCurrentPage] = useState(0);
 	return (
-		<section className="flex justify-center items-center h-screen">
-			<Card className="w-full max-w-xl shadow-none border-none lg:shadow lg:border">
-				<CardHeader className="text-center pb-3">
-					<CardTitle className="text-4xl">Create an Account</CardTitle>
-					<CardDescription className="text-base">
-						Please enter your details
-					</CardDescription>
+		<AuthLayout>
+			<Container className="mt-11 sm:mb-14 flex justify-center">
+				<div className="lg:mx-20 w-full shrink-0">
 					<MiniNav
-						pages={[1, 2]}
-						currentPage={page}
-						setPage={setPage}
+						pages={pages}
+						currentPage={currentPage}
+						setPage={setCurrentPage}
 					/>
-				</CardHeader>
-				<CardContent>
-					<SignUpForm
-						currentPage={page}
-						setPage={setPage}
-					/>
-				</CardContent>
-				<CardFooter className="justify-center">
-					<p className="text-center text-sm">
-						Already have an account?{" "}
-						<Link
-							to="/login"
-							className="font-semibold"
-						>
-							Login
-						</Link>
-					</p>
-				</CardFooter>
-			</Card>
-		</section>
+					<AnimatePresence mode="popLayout">
+						<EmployerForm
+							currentPage={currentPage}
+							setPage={setCurrentPage}
+						/>
+						{/* <CompanyForm
+							currentPage={currentPage}
+							setPage={setCurrentPage}
+						/> */}
+					</AnimatePresence>
+				</div>
+			</Container>
+		</AuthLayout>
 	);
 };
 

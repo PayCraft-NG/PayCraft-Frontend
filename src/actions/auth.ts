@@ -1,7 +1,6 @@
 import { LoginFormData } from "@/components/forms/LoginForm";
-import { SignUpFormValues } from "@/components/forms/SignUpForm";
 import apiClient from "@/lib/axios";
-import { IResponse, LoginResponse, SignUpResponse } from "@/types/auth";
+import { IResponse, LoginResponse } from "@/types/auth";
 import { AxiosError } from "axios";
 
 export async function loginUser(payload: LoginFormData) {
@@ -10,18 +9,7 @@ export async function loginUser(payload: LoginFormData) {
 			"/auth/login",
 			payload
 		);
-		return res.data;
-	} catch (error) {
-		throw error as AxiosError;
-	}
-}
-
-export async function onBoardUser(payload: SignUpFormValues) {
-	try {
-		const res = await apiClient.post<IResponse<SignUpResponse>>(
-			"/auth/onboard",
-			payload
-		);
+		console.log(res);
 		return res.data;
 	} catch (error) {
 		throw error as AxiosError;
