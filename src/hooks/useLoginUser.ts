@@ -29,7 +29,7 @@ export const useLoginUser = () => {
 				sameSite: true,
 				secure: true,
 			});
-			navigate(location.state?.from?.pathname || "/dashboard", {
+			navigate("/dashboard", {
 				replace: true,
 			});
 		},
