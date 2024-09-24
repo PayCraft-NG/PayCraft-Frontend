@@ -31,6 +31,7 @@ const companySchema = z.object({
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
 const companySizeOptions = ["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"];
+const companyCountryOptions = ["Nigeria", "Ghana", "Togo"];
 
 interface Props {
 	employerId: string;
@@ -45,15 +46,32 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 		register,
 		control,
 		handleSubmit,
+		getFieldState,
 		formState: { errors, isValid },
 	} = useForm<CompanyFormValues>({
-		mode: "all",
+		mode: "onChange",
 		resolver: zodResolver(companySchema),
+		defaultValues: {
+			companyName: "",
+			companySize: "SMALL",
+			companyCurrency: "NGN",
+			companyCountry: "Nigeria",
+			companyEmailAddress: "",
+			companyPhoneNumber: "",
+			companyStreetAddress: "",
+		},
 	});
 
 	const onSubmit = (data: CompanyFormValues) => {
 		console.log(data);
 		createCompany(data);
+	};
+
+	const checkIfFieldsAreValid = (fields: (keyof CompanyFormValues)[]) => {
+		return fields.every((field) => {
+			const { error, isDirty } = getFieldState(field);
+			return isDirty && !error;
+		});
 	};
 
 	const renderInput = (
@@ -109,8 +127,8 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 						{renderInput(
 							"companyEmailAddress",
 							"Company Email",
-							"text",
-							"Enter your company email"
+							"email",
+							"user@example.com"
 						)}
 					</div>
 					<div className="grid sm:grid-cols-2 gap-x-6 md:gap-x-8 gap-y-4">
@@ -120,18 +138,51 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 							"text",
 							"Enter your Company Phone Number"
 						)}
-						{renderInput(
-							"companyCountry",
-							"Company Country",
-							"text",
-							"Enter your company country"
-						)}
+						<div>
+							<Label
+								className="text-base"
+								htmlFor="companyCountry"
+							>
+								Company Country
+							</Label>
+							<Controller
+								name="companyCountry"
+								control={control}
+								render={({ field }) => (
+									<Select
+										{...field}
+										defaultValue={companyCountryOptions[0]}
+									>
+										<SelectTrigger className="my-2 h-11">
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											{companyCountryOptions.map((option) => (
+												<SelectItem
+													value={option}
+													className="capitalize"
+												>
+													{option}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								)}
+							/>
+						</div>
 					</div>
 					<div className="flex justify-between w-full">
 						<Button
 							type="submit"
-							disabled={!isValid}
-							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base"
+							disabled={
+								!checkIfFieldsAreValid([
+									"companyName",
+									"companyEmailAddress",
+									"companyPhoneNumber",
+									"companyCountry",
+								])
+							}
+							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base ml-auto"
 						>
 							Next
 						</Button>
@@ -159,9 +210,12 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 								name="companySize"
 								control={control}
 								render={({ field }) => (
-									<Select {...field}>
+									<Select
+										{...field}
+										defaultValue={companySizeOptions[0]}
+									>
 										<SelectTrigger className="my-2 h-11">
-											<SelectValue placeholder="Select your company size" />
+											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
 											{companySizeOptions.map((option) => (
@@ -169,7 +223,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 													value={option}
 													className="capitalize"
 												>
-													{option.toLowerCase()}
+													{option}
 												</SelectItem>
 											))}
 										</SelectContent>
@@ -188,7 +242,10 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 								name="companyCurrency"
 								control={control}
 								render={({ field }) => (
-									<Select {...field}>
+									<Select
+										{...field}
+										defaultValue={"NGN"}
+									>
 										<SelectTrigger className="my-2 h-11">
 											<SelectValue placeholder="Select your company currency" />
 										</SelectTrigger>

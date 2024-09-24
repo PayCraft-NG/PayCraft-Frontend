@@ -46,6 +46,16 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 	} = useForm<EmployerFormValues>({
 		mode: "onChange",
 		resolver: zodResolver(schema),
+		defaultValues: {
+			firstName: "",
+			lastName: "",
+			emailAddress: "",
+			bvn: "",
+			password: "",
+			jobTitle: "",
+			phoneNumber: "",
+			streetAddress: "",
+		},
 	});
 
 	const checkIfFieldsAreValid = (fields: (keyof EmployerFormValues)[]) => {
@@ -64,6 +74,10 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
 		});
 	};
+
+	// useEffect(() => {
+	// 	trigger(["firstName", "lastName", "emailAddress", "password"]);
+	// }, [trigger]);
 
 	const renderInput = (
 		name: keyof EmployerFormValues,
@@ -93,6 +107,7 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			)}
 		</div>
 	);
+
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
