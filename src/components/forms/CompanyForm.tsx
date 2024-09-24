@@ -15,7 +15,9 @@ import {
 } from "../ui/select";
 
 const companySchema = z.object({
-	companyName: z.string().min(1, { message: "Required" }),
+	companyName: z
+		.string()
+		.min(3, { message: "Minimum of 3 characters required" }),
 	companySize: z.enum(["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"]),
 	companyEmailAddress: z
 		.string()
@@ -23,15 +25,17 @@ const companySchema = z.object({
 	companyPhoneNumber: z.string().regex(/^[0-9]{13}$/, {
 		message: "Company phone number must be 13 digits",
 	}),
-	companyStreetAddress: z.string().min(1, { message: "Required" }),
+	companyStreetAddress: z
+		.string()
+		.min(3, { message: "Minimum of 3 characters required" }),
 	companyCountry: z.string().min(1, { message: "Required" }),
 	companyCurrency: z.enum(["NGN", "USD"]),
 });
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
-const companySizeOptions = ["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"];
-const companyCountryOptions = ["Nigeria", "Ghana", "Togo"];
+const companySizeOptions = ["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"] as const;
+const companyCountryOptions = ["Nigeria", "Ghana", "Togo"] as const;
 
 interface Props {
 	employerId: string;
@@ -46,19 +50,15 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 		register,
 		control,
 		handleSubmit,
-		getFieldState,
+		trigger,
 		formState: { errors, isValid },
 	} = useForm<CompanyFormValues>({
 		mode: "onChange",
 		resolver: zodResolver(companySchema),
 		defaultValues: {
-			companyName: "",
-			companySize: "SMALL",
+			companySize: companySizeOptions[0],
+			companyCountry: companyCountryOptions[0],
 			companyCurrency: "NGN",
-			companyCountry: "Nigeria",
-			companyEmailAddress: "",
-			companyPhoneNumber: "",
-			companyStreetAddress: "",
 		},
 	});
 
@@ -67,11 +67,20 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 		createCompany(data);
 	};
 
-	const checkIfFieldsAreValid = (fields: (keyof CompanyFormValues)[]) => {
-		return fields.every((field) => {
-			const { error, isDirty } = getFieldState(field);
-			return isDirty && !error;
-		});
+	const nextPage = async () => {
+		const isPageValid = await trigger(
+			[
+				"companyName",
+				"companyEmailAddress",
+				"companyPhoneNumber",
+				"companyCountry",
+			],
+			{ shouldFocus: true }
+		);
+
+		if (!isPageValid) return;
+
+		setPage(1);
 	};
 
 	const renderInput = (
@@ -151,6 +160,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 								render={({ field }) => (
 									<Select
 										{...field}
+										onValueChange={field.onChange}
 										defaultValue={companyCountryOptions[0]}
 									>
 										<SelectTrigger className="my-2 h-11">
@@ -173,15 +183,8 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 					</div>
 					<div className="flex justify-between w-full">
 						<Button
-							type="submit"
-							disabled={
-								!checkIfFieldsAreValid([
-									"companyName",
-									"companyEmailAddress",
-									"companyPhoneNumber",
-									"companyCountry",
-								])
-							}
+							type="button"
+							onClick={nextPage}
 							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base ml-auto"
 						>
 							Next
@@ -212,6 +215,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 								render={({ field }) => (
 									<Select
 										{...field}
+										onValueChange={field.onChange}
 										defaultValue={companySizeOptions[0]}
 									>
 										<SelectTrigger className="my-2 h-11">
@@ -244,6 +248,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 								render={({ field }) => (
 									<Select
 										{...field}
+										onValueChange={field.onChange}
 										defaultValue={"NGN"}
 									>
 										<SelectTrigger className="my-2 h-11">
