@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { loginUser } from "@/actions/auth";
-import { useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useToast } from "./use-toast";
 import { useAuthActions } from "@/store/auth";
+import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "./use-toast";
 
 export const useLoginUser = () => {
 	const navigate = useNavigate();
