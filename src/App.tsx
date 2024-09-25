@@ -26,20 +26,15 @@ function App() {
 				element={<LoginPage />}
 			/>
 
-				<Route
-					path="signup"
-					element={<SignUpPage />}
-				/>
+			<Route
+				path="signup"
+				element={<SignUpPage />}
+			/>
 
-				<Route
-					path="/company/:employerId?"
-					element={<CreateCompany />}
-				/>
-
-				<Route
-					path="dashboard"
-					element={<h1>Dashboard</h1>}
-				/>
+			<Route
+				path="/company/:employerId?"
+				element={<CreateCompany />}
+			/>
 
 			<Route
 				path="dashboard"

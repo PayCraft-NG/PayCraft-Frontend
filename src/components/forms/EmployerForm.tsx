@@ -11,12 +11,14 @@ import { useCreateEmployer } from "@/hooks/useCreateEmployer";
 import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
-	firstName: z.string().min(1, { message: "Required" }),
-	lastName: z.string().min(1, { message: "Required" }),
+	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
+	lastName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	emailAddress: z.string().email({ message: "Invalid email address" }),
 	phoneNumber: z.string().regex(phoneRegex, { message: "Invalid Number" }),
-	streetAddress: z.string().min(1, { message: "Required" }),
-	jobTitle: z.string().min(1, { message: "Required" }),
+	streetAddress: z
+		.string()
+		.min(3, { message: "Minimum of 3 characters required" }),
+	jobTitle: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	bvn: z
 		.string()
 		.length(11, { message: "BVN must be exactly 11 digits" })
@@ -41,28 +43,24 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 	const {
 		register,
 		handleSubmit,
-		getFieldState,
+		trigger,
 		formState: { errors, isValid },
 	} = useForm<EmployerFormValues>({
 		mode: "onChange",
 		resolver: zodResolver(schema),
-		defaultValues: {
-			firstName: "",
-			lastName: "",
-			emailAddress: "",
-			bvn: "",
-			password: "",
-			jobTitle: "",
-			phoneNumber: "",
-			streetAddress: "",
-		},
 	});
 
-	const checkIfFieldsAreValid = (fields: (keyof EmployerFormValues)[]) => {
-		return fields.every((field) => {
-			const { error, isDirty } = getFieldState(field);
-			return isDirty && !error;
-		});
+	const nextPage = async () => {
+		const isPageValid = await trigger(
+			["firstName", "lastName", "emailAddress", "password"],
+			{ shouldFocus: true }
+		);
+
+		console.log(errors);
+
+		if (!isPageValid) return;
+
+		setPage(1);
 	};
 
 	const navigate = useNavigate();
@@ -74,10 +72,6 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
 		});
 	};
-
-	// useEffect(() => {
-	// 	trigger(["firstName", "lastName", "emailAddress", "password"]);
-	// }, [trigger]);
 
 	const renderInput = (
 		name: keyof EmployerFormValues,
@@ -137,15 +131,7 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 					</div>
 					<Button
 						type="button"
-						onClick={() => setPage(1)}
-						disabled={
-							!checkIfFieldsAreValid([
-								"firstName",
-								"lastName",
-								"emailAddress",
-								"password",
-							])
-						}
+						onClick={nextPage}
 						className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base ml-auto"
 					>
 						Next
