@@ -40,11 +40,12 @@ function App() {
 					path="dashboard"
 					element={<h1>Dashboard</h1>}
 				/>
+				<Route
+					path="/company/:employerId?"
+					element={<CreateCompany />}
+				/>
 
-			<Route
-				path="dashboard"
-				element={<MainLayout />}
-			>
+				{/* 404 */}
 				<Route
 					path=""
 					element={<Dashboard />}
