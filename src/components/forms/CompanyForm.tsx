@@ -144,7 +144,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 						{renderInput(
 							"companyPhoneNumber",
 							"Company Phone Number",
-							"text",
+							"tel",
 							"Enter your Company Phone Number"
 						)}
 						<div>

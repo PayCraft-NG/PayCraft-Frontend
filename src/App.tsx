@@ -4,6 +4,7 @@ import LoginPage from "./pages/Login";
 import SignUpPage from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
+import Profile from "./pages/Profile";
 
 // Desc: Main App component for the application.
 function App() {
@@ -43,6 +44,10 @@ function App() {
 				<Route
 					path=""
 					element={<Dashboard />}
+				/>
+				<Route
+					path="profile"
+					element={<Profile />}
 				/>
 			</Route>
 

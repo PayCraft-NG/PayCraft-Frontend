@@ -33,6 +33,7 @@ apiClient.interceptors.response.use(
 		return response;
 	},
 	(error: AxiosError) => {
+		console.log(error);
 		return Promise.reject(error);
 	}
 );

@@ -24,16 +24,16 @@ const NavBar = () => {
 					<span className="sr-only">Acme Inc</span>
 				</Link>
 				<Link
-					to="#"
+					to="/dashboard"
 					className="text-foreground transition-colors hover:text-foreground"
 				>
 					Dashboard
 				</Link>
 				<Link
-					to="#"
+					to="/dashboard/profile"
 					className="text-muted-foreground transition-colors hover:text-foreground"
 				>
-					Orders
+					Profile
 				</Link>
 				<Link
 					to="#"
@@ -75,16 +75,16 @@ const NavBar = () => {
 							<span className="sr-only">Acme Inc</span>
 						</Link>
 						<Link
-							to="#"
+							to="/dashboard"
 							className="hover:text-foreground"
 						>
 							Dashboard
 						</Link>
 						<Link
-							to="#"
+							to="/dashboard/profile"
 							className="text-muted-foreground hover:text-foreground"
 						>
-							Orders
+							Profile
 						</Link>
 						<Link
 							to="#"
@@ -113,7 +113,7 @@ const NavBar = () => {
 						<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 						<Input
 							type="search"
-							placeholder="Search products..."
+							placeholder="Search..."
 							className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
 						/>
 					</div>
