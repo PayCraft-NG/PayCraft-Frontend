@@ -1,26 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { loginUser } from "@/actions/auth";
+import { refreshToken } from "@/actions/auth";
+import { API_STATUS_CODES, AUTH_STATUS_CODES } from "@/constants/statusCodes";
 import { useAuthActions } from "@/store/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "./use-toast";
-import { API_STATUS_CODES, AUTH_STATUS_CODES } from "@/constants/statusCodes";
 
-export const useLoginUser = () => {
-	const navigate = useNavigate();
-
-	const { toast } = useToast();
-
+export const useRefreshToken = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [_, setCookie] = useCookies();
 	const { setAccessToken } = useAuthActions();
+	const { toast } = useToast();
+
+	const navigate = useNavigate();
 
 	return useMutation({
-		mutationFn: loginUser,
+		mutationFn: refreshToken,
 		onSuccess: (res) => {
 			if (
 				res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS ||
-				res.statusCode === AUTH_STATUS_CODES.LOGIN_SUCCESS
+				res.statusCode === AUTH_STATUS_CODES.REFRESH_TOKEN_SUCCESS
 			) {
 				toast({
 					description: res.statusMessage,
@@ -33,13 +32,6 @@ export const useLoginUser = () => {
 				});
 				navigate("/dashboard", {
 					replace: true,
-				});
-			}
-
-			if (res.statusCode === AUTH_STATUS_CODES.LOGIN_INVALID_CREDENTIALS) {
-				toast({
-					variant: "destructive",
-					description: res.statusMessage,
 				});
 			}
 		},

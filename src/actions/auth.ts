@@ -9,7 +9,18 @@ export async function loginUser(payload: LoginFormData) {
 			"/auth/login",
 			payload
 		);
-		console.log(res);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function refreshToken(payload: { refreshToken: string }) {
+	try {
+		const res = await apiClient.post<IResponse<LoginResponse>>(
+			"/auth/refresh-token",
+			payload
+		);
 		return res.data;
 	} catch (error) {
 		throw error as AxiosError;
