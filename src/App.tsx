@@ -5,6 +5,8 @@ import SignUpPage from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
 import Profile from "./pages/Profile";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Redirecting from "./pages/Redirecting";
 import Employees from "./pages/Employees";
 
 // Desc: Main App component for the application.
@@ -29,6 +31,11 @@ function App() {
 			/>
 
 			<Route
+				path="redirecting"
+				element={<Redirecting />}
+			/>
+
+			<Route
 				path="signup"
 				element={<SignUpPage />}
 			/>
@@ -41,20 +48,25 @@ function App() {
 			{/* Dashboard Pages */}
 			<Route
 				path="dashboard"
-				element={<MainLayout />}
+				element={<ProtectedRoutes />}
 			>
 				<Route
 					path=""
-					element={<Dashboard />}
-				/>
-				<Route
-					path="profile"
-					element={<Profile />}
-				/>
-				<Route
-					path="employee"
-					element={<Employees />}
-				/>
+					element={<MainLayout />}
+				>
+					<Route
+						path=""
+						element={<Dashboard />}
+					/>
+					<Route
+						path="profile"
+						element={<Profile />}
+					/>
+					<Route
+						path="employee"
+						element={<Employees />}
+					/>
+				</Route>
 			</Route>
 
 			{/* 404 */}
