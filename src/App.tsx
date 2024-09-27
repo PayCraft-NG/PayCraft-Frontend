@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
 import Profile from "./pages/Profile";
+import Employees from "./pages/Employees";
 
 // Desc: Main App component for the application.
 function App() {
@@ -37,6 +38,7 @@ function App() {
 				element={<CreateCompany />}
 			/>
 
+			{/* Dashboard Pages */}
 			<Route
 				path="dashboard"
 				element={<MainLayout />}
@@ -48,6 +50,10 @@ function App() {
 				<Route
 					path="profile"
 					element={<Profile />}
+				/>
+				<Route
+					path="employee"
+					element={<Employees />}
 				/>
 			</Route>
 
