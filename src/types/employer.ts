@@ -14,5 +14,15 @@ export interface Company {
 	companyEmailAddress: string;
 	companyPhoneNumber: string;
 	companyId: string;
-	employerDTO: Omit<Employer, "employerId">;
+	employerDTO: Employer;
+}
+
+export interface Payroll {
+	payrollId: string;
+	automatic: boolean;
+	payPeriodStart: string;
+	payPeriodEnd: string;
+	lastRunDate: string;
+	cronExpression: string;
+	paymentStatus: string;
 }

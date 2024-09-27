@@ -5,6 +5,8 @@ import SignUpPage from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
 import Profile from "./pages/Profile";
+import Payroll from "./pages/Payroll";
+import PayrollTable from "./components/payroll/PayrollTable";
 
 // Desc: Main App component for the application.
 function App() {
@@ -49,6 +51,15 @@ function App() {
 					path="profile"
 					element={<Profile />}
 				/>
+				<Route
+					path="payroll"
+					element={<Payroll />}
+				>
+					<Route
+						path=""
+						element={<PayrollTable />}
+					/>
+				</Route>
 			</Route>
 
 			{/* 404 */}
