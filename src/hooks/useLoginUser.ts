@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "./use-toast";
 import { API_STATUS_CODES, AUTH_STATUS_CODES } from "@/constants/statusCodes";
+import { convertToSeconds } from "@/lib/utils";
 
 export const useLoginUser = () => {
 	const navigate = useNavigate();
@@ -26,8 +27,8 @@ export const useLoginUser = () => {
 					description: res.statusMessage,
 				});
 				setAccessToken(res.data.accessToken);
-				setCookie("refresh_token", res.data.refreshToken, {
-					maxAge: Number(res.data.refreshTokenValidityTime) || 1000 * 60 * 2,
+				setCookie("refresh_token", res.data.accessToken, {
+					maxAge: convertToSeconds(res.data.refreshTokenValidityTime),
 					sameSite: true,
 					secure: true,
 				});

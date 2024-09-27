@@ -1,25 +1,30 @@
-import { useRefreshToken } from "@/hooks/useRefreshToken";
 import { useAuth } from "@/store/auth";
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = () => {
 	const accessToken = useAuth();
 	const location = useLocation();
-	const [cookie] = useCookies(["refresh_token"]);
+	const [cookies] = useCookies(["refresh_token"]);
 
-	const { mutate: refreshToken } = useRefreshToken();
+	// If there's an access token, allow access to protected routes
+	if (accessToken) {
+		return <Outlet />;
+	}
 
-	useEffect(() => {
-		if (cookie.refresh_token) {
-			refreshToken({ refreshToken: cookie.refresh_token });
-		}
-	}, []);
+	// If there's a refresh token cookie and we're attempting to refresh, show loading screen
+	if (!accessToken && cookies?.refresh_token) {
+		return (
+			<Navigate
+				to="/redirecting"
+				state={{ from: location }}
+				replace
+			/>
+		);
+	}
 
-	return accessToken ? (
-		<Outlet />
-	) : (
+	// If there's no refresh token cookie or refresh attempt has failed, redirect to login
+	return (
 		<Navigate
 			to="/login"
 			state={{ from: location }}

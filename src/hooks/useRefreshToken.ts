@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "./use-toast";
+import { convertToSeconds } from "@/lib/utils";
 
 export const useRefreshToken = () => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,6 +17,8 @@ export const useRefreshToken = () => {
 
 	return useMutation({
 		mutationFn: refreshToken,
+		retry: false,
+		onMutate: () => console.log("Refreshing Token"),
 		onSuccess: (res) => {
 			if (
 				res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS ||
@@ -25,8 +28,8 @@ export const useRefreshToken = () => {
 					description: res.statusMessage,
 				});
 				setAccessToken(res.data.accessToken);
-				setCookie("refresh_token", res.data.refreshToken, {
-					maxAge: Number(res.data.refreshTokenValidityTime) || 1000 * 60 * 2,
+				setCookie("refresh_token", res.data.accessToken, {
+					maxAge: convertToSeconds(res.data.refreshTokenValidityTime),
 					sameSite: true,
 					secure: true,
 				});

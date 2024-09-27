@@ -15,7 +15,6 @@ export default apiClient;
 // Intreceptors for Error Handling
 apiClient.interceptors.response.use(
 	(response) => {
-		console.log(response);
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const data = response.data as IResponse<any>;
 		if (

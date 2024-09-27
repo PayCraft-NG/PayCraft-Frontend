@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
 import Profile from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Redirecting from "./pages/Redirecting";
 
 // Desc: Main App component for the application.
 function App() {
@@ -26,6 +27,11 @@ function App() {
 			<Route
 				path="login"
 				element={<LoginPage />}
+			/>
+
+			<Route
+				path="redirecting"
+				element={<Redirecting />}
 			/>
 
 			<Route

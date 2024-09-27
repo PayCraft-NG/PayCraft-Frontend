@@ -6,42 +6,26 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function convertToSeconds(timeStr: string): number {
-	try {
-		const match = timeStr.match(/^(\d+)\s*([a-z]+)$/i);
-		if (!match) {
-			throw new Error("Invalid time format");
-		}
+	const DEFAULT_TIME = 120000; // 2 minutes in milliseconds
+	const match = timeStr.match(/^(\d+)\s*(s|sec|secs|m|min|mins|h|hr|hrs)$/i);
+	if (!match) return DEFAULT_TIME;
 
-		const [, timeValue, unit] = match;
-		const time = parseInt(timeValue, 10);
+	const [, value, unit] = match;
+	const time = parseInt(value, 10);
+	if (isNaN(time)) return DEFAULT_TIME;
 
-		if (isNaN(time)) {
-			throw new Error("Invalid time value");
-		}
+	const multipliers: { [key: string]: number } = {
+		s: 1000,
+		sec: 1000,
+		secs: 1000,
+		m: 60000,
+		min: 60000,
+		mins: 60000,
+		h: 3600000,
+		hr: 3600000,
+		hrs: 3600000,
+	};
 
-		switch (unit.toLowerCase()) {
-			case "s":
-			case "sec":
-			case "secs":
-			case "second":
-			case "seconds":
-				return time;
-			case "m":
-			case "min":
-			case "mins":
-			case "minute":
-			case "minutes":
-				return time * 60;
-			case "h":
-			case "hr":
-			case "hrs":
-			case "hour":
-			case "hours":
-				return time * 60 * 60;
-			default:
-				throw new Error("Unknown time unit");
-		}
-	} catch (error) {
-		return 1 * 60 * 60;
-	}
+	const multiplier = multipliers[unit.toLowerCase()];
+	return multiplier ? time * multiplier : DEFAULT_TIME;
 }
