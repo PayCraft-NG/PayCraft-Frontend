@@ -29,7 +29,7 @@ export default function ReactQueryClientProvider({
 			defaultOptions: {
 				queries: {
 					refetchOnWindowFocus: false,
-					staleTime: 10 * 1000,
+					staleTime: 10 * 60 * 1000,
 				},
 			},
 			mutationCache: new MutationCache({
