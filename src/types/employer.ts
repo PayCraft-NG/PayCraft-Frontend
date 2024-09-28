@@ -26,3 +26,20 @@ export interface Payroll {
 	cronExpression: string;
 	paymentStatus: string;
 }
+
+export interface Employee {
+	employeeId: string;
+	companyId: string;
+	firstName: string;
+	lastName: string;
+	emailAddress: string;
+	dateOfBirth: string;
+	streetAddress: string;
+	phoneNumber: string;
+	jobTitle: string;
+	department: string;
+	bankName: string;
+	accountNumber: string;
+	salaryAmount: number;
+	salaryCurrency: string;
+}

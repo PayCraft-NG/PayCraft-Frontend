@@ -5,6 +5,11 @@ import SignUpPage from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
 import Profile from "./pages/Profile";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Redirecting from "./pages/Redirecting";
+import Employees from "./pages/Employees";
+import CreateEmployeeForm from "./components/forms/CreateEmployeeForm";
+import EmployeeTable from "./components/EmployeeTable";
 import Payroll from "./pages/Payroll";
 import PayrollTable from "./components/payroll/PayrollTable";
 
@@ -30,6 +35,11 @@ function App() {
 			/>
 
 			<Route
+				path="redirecting"
+				element={<Redirecting />}
+			/>
+
+			<Route
 				path="signup"
 				element={<SignUpPage />}
 			/>
@@ -39,18 +49,37 @@ function App() {
 				element={<CreateCompany />}
 			/>
 
+			{/* Dashboard Pages */}
 			<Route
 				path="dashboard"
-				element={<MainLayout />}
+				element={<ProtectedRoutes />}
 			>
 				<Route
 					path=""
-					element={<Dashboard />}
-				/>
-				<Route
-					path="profile"
-					element={<Profile />}
-				/>
+					element={<MainLayout />}
+				>
+					<Route
+						path=""
+						element={<Dashboard />}
+					/>
+					<Route
+						path="profile"
+						element={<Profile />}
+					/>
+					<Route
+						path="employee"
+						element={<Employees />}
+					>
+						<Route
+							path=""
+							element={<EmployeeTable />}
+						/>
+						<Route
+							path="create"
+							element={<CreateEmployeeForm />}
+						/>
+					</Route>
+				</Route>
 				<Route
 					path="payroll"
 					element={<Payroll />}

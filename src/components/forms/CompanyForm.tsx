@@ -13,6 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
+import { CountryOptions, CurrencyOptions, SizeOptions } from "@/constants/data";
 
 const companySchema = z.object({
 	companyName: z
@@ -34,9 +35,6 @@ const companySchema = z.object({
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
-const companySizeOptions = ["SMALL", "MEDIUM", "LARGE", "ENTERPRISE"] as const;
-const companyCountryOptions = ["Nigeria", "Ghana", "Togo"] as const;
-
 interface Props {
 	employerId: string;
 	currentPage: number;
@@ -56,9 +54,9 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 		mode: "onChange",
 		resolver: zodResolver(companySchema),
 		defaultValues: {
-			companySize: companySizeOptions[0],
-			companyCountry: companyCountryOptions[0],
-			companyCurrency: "NGN",
+			companySize: SizeOptions[0],
+			companyCountry: CountryOptions[0],
+			companyCurrency: CurrencyOptions[0],
 		},
 	});
 
@@ -161,13 +159,13 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 									<Select
 										{...field}
 										onValueChange={field.onChange}
-										defaultValue={companyCountryOptions[0]}
+										defaultValue={CountryOptions[0]}
 									>
 										<SelectTrigger className="my-2 h-11">
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											{companyCountryOptions.map((option) => (
+											{CountryOptions.map((option) => (
 												<SelectItem
 													value={option}
 													className="capitalize"
@@ -216,13 +214,13 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 									<Select
 										{...field}
 										onValueChange={field.onChange}
-										defaultValue={companySizeOptions[0]}
+										defaultValue={SizeOptions[0]}
 									>
 										<SelectTrigger className="my-2 h-11">
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											{companySizeOptions.map((option) => (
+											{SizeOptions.map((option) => (
 												<SelectItem
 													value={option}
 													className="capitalize"
@@ -255,8 +253,14 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 											<SelectValue placeholder="Select your company currency" />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="USD">USD</SelectItem>
-											<SelectItem value="NGN">NGN</SelectItem>
+											{CurrencyOptions.map((option) => (
+												<SelectItem
+													value={option}
+													className="capitalize"
+												>
+													{option}
+												</SelectItem>
+											))}
 										</SelectContent>
 									</Select>
 								)}

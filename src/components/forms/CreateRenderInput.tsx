@@ -11,6 +11,7 @@ interface RenderInputProps<TFieldValues extends FieldValues> {
 	name: Path<TFieldValues>;
 	label: string;
 	type: string;
+	placeholder?: string;
 }
 
 export function createRenderInput<TFieldValues extends FieldValues>(
@@ -24,18 +25,20 @@ export function createRenderInput<TFieldValues extends FieldValues>(
 	return function RenderInput({
 		name,
 		label,
-		type,
+		type = "text",
+		placeholder = "",
 	}: RenderInputProps<TFieldValues>) {
 		return (
 			<div>
 				<Label
-					className="text-sm md:text-base font-normal"
+					className="text-sm font-normal"
 					htmlFor={name}
 				>
 					{label}
 				</Label>
 				<Input
 					{...register(name)}
+					placeholder={placeholder}
 					id={name}
 					type={type}
 					disabled={!isEditing}

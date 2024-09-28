@@ -1,4 +1,4 @@
-import { passwordRegex, phoneRegex } from "@/constants/regex";
+import { PasswordRegex, PhoneRegex } from "@/constants/regex";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { motion } from "framer-motion";
@@ -14,7 +14,7 @@ const schema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	lastName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	emailAddress: z.string().email({ message: "Invalid email address" }),
-	phoneNumber: z.string().regex(phoneRegex, { message: "Invalid Number" }),
+	phoneNumber: z.string().regex(PhoneRegex, { message: "Invalid Number" }),
 	streetAddress: z
 		.string()
 		.min(3, { message: "Minimum of 3 characters required" }),
@@ -26,7 +26,7 @@ const schema = z.object({
 	password: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
-		.regex(passwordRegex, {
+		.regex(PasswordRegex, {
 			message:
 				"Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
 		}),
