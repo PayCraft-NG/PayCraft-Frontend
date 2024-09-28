@@ -1,12 +1,10 @@
 import { CurrencyOptions } from "@/constants/data";
-import { BankAccountRegex, PhoneRegex } from "@/constants/regex";
 import { useCreateEmployee } from "@/hooks/employee/useCreateEmployee";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
@@ -29,41 +27,13 @@ import {
 	SelectValue,
 } from "../ui/select";
 import { createRenderInput } from "./CreateRenderInput";
+import { EmployeeSchema } from "./UpdateEmployeeForm";
 
-const schema = z.object({
-	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
-	lastName: z.string().min(3, { message: "Minimum of 3 characters required" }),
-	emailAddress: z.string().email({ message: "Invalid email address" }),
-	dateOfBirth: z
-		.date()
-		.min(new Date("1900-01-01"), { message: "Date must be after 1900-01-01" })
-		.max(new Date(), { message: "Date cannot be in the future" }),
-	streetAddress: z
-		.string()
-		.min(3, { message: "Minimum of 3 characters required" }),
-	phoneNumber: z
-		.string()
-		.min(1, { message: "Required" })
-		.regex(PhoneRegex, { message: "Invalid phone number" }),
-	jobTitle: z.string().min(3, { message: "Minimum of 3 characters required" }),
-	department: z
-		.string()
-		.min(3, { message: "Minimum of 3 characters required" }),
+const schema = EmployeeSchema.extend({
 	bvn: z
 		.string()
 		.length(11, { message: "BVN must be exactly 11 digits" })
 		.regex(/^\d+$/, { message: "BVN must contain only digits" }),
-	bankName: z.string().min(3, { message: "Minimum of 3 characters required" }),
-	accountNumber: z
-		.string()
-		.length(10, { message: "Account number must be exactly 10 digits" })
-		.regex(BankAccountRegex, { message: "BVN must be exactly 10 digits" }),
-	salaryAmount: z.coerce
-		.number()
-		.positive({ message: "Salary amount must be a positive number" }),
-	salaryCurrency: z
-		.string()
-		.min(3, { message: "Salary currency must be a valid currency code" }),
 });
 
 export type CreateEmployeeForm = z.infer<typeof schema>;
@@ -101,14 +71,9 @@ const CreateEmployeeForm = () => {
 		<Card>
 			<CardHeader>
 				<div className="flex items-center justify-between">
-					<CardTitle className="text-lg">Create New Employee</CardTitle>
-					<Link
-						to="/dashboard/employee"
-						className="flex items-center text-sm text-muted-foreground"
-					>
-						<ArrowLeft className="mr-2 h-4 w-4" />
-						Back to Employee Table
-					</Link>
+					<CardTitle className="text-lg md:text-2xl">
+						Create New Employee
+					</CardTitle>
 				</div>
 				<CardDescription>
 					Enter the details of the new employee here.

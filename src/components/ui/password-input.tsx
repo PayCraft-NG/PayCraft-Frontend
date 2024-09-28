@@ -21,6 +21,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
 					{...props}
 				/>
 				<button
+					type="button"
 					className="absolute right-0 mr-3"
 					onClick={handleShow}
 				>

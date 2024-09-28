@@ -1,11 +1,15 @@
 import { useRefreshToken } from "@/hooks/useRefreshToken";
+import { useAuth } from "@/store/auth";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { Navigate, useLocation } from "react-router-dom";
 
 const Redirecting = () => {
 	const { mutateAsync: refreshToken } = useRefreshToken();
 	const [cookie] = useCookies(["refresh_token"]);
+	const accessToken = useAuth();
+	const location = useLocation();
 
 	useEffect(() => {
 		const attemptTokenRefresh = async () => {
@@ -17,7 +21,16 @@ const Redirecting = () => {
 		};
 
 		attemptTokenRefresh();
-	}, [cookie?.refresh_token, refreshToken]);
+	}, [cookie?.refresh_token, refreshToken, accessToken]);
+
+	if (!accessToken)
+		return (
+			<Navigate
+				to="/login"
+				state={{ from: location }}
+				replace
+			/>
+		);
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-background">

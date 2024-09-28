@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LoaderCircle } from "lucide-react";
 import { useLoginUser } from "@/hooks/useLoginUser";
+import { PasswordInput } from "../ui/password-input";
 
 const schema = z.object({
 	emailAddress: z.string().email(),
@@ -75,7 +76,7 @@ const LoginForm = () => {
 				>
 					Password
 				</Label>
-				<Input
+				<PasswordInput
 					{...register("password")}
 					id="password"
 					type="password"
