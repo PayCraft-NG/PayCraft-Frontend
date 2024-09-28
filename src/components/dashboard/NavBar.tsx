@@ -36,10 +36,10 @@ const NavBar = () => {
 					Profile
 				</Link>
 				<Link
-					to="#"
+					to="/dashboard/employee"
 					className="text-muted-foreground transition-colors hover:text-foreground"
 				>
-					Products
+					Employees
 				</Link>
 				<Link
 					to="#"
@@ -87,10 +87,10 @@ const NavBar = () => {
 							Profile
 						</Link>
 						<Link
-							to="#"
+							to="/dashboard/employee"
 							className="text-muted-foreground hover:text-foreground"
 						>
-							Products
+							Employees
 						</Link>
 						<Link
 							to="#"

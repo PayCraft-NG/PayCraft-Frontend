@@ -1,4 +1,4 @@
-import { passwordRegex } from "@/constants/regex";
+import { PasswordRegex } from "@/constants/regex";
 import { useUpdatePassword } from "@/hooks/useUpdatePassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -11,14 +11,14 @@ const schema = z.object({
 	oldPassword: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
-		.regex(passwordRegex, {
+		.regex(PasswordRegex, {
 			message:
 				"Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
 		}),
 	newPassword: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
-		.regex(passwordRegex, {
+		.regex(PasswordRegex, {
 			message:
 				"Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
 		}),

@@ -1,4 +1,4 @@
-import { passwordRegex } from "@/constants/regex";
+import { PasswordRegex } from "@/constants/regex";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ const schema = z.object({
 	password: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
-		.regex(passwordRegex, {
+		.regex(PasswordRegex, {
 			message:
 				"Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
 		}),

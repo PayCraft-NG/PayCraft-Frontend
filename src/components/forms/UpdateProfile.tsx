@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { phoneRegex } from "@/constants/regex";
+import { PhoneRegex } from "@/constants/regex";
 import { useEmployer } from "@/hooks/useEmployer";
 import { useUpdateEmployer } from "@/hooks/useUpdateEmployer";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ const schema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	lastName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	emailAddress: z.string().email({ message: "Invalid email address" }),
-	phoneNumber: z.string().regex(phoneRegex, { message: "Invalid Number" }),
+	phoneNumber: z.string().regex(PhoneRegex, { message: "Invalid Number" }),
 	streetAddress: z
 		.string()
 		.min(3, { message: "Minimum of 3 characters required" }),

@@ -1,10 +1,11 @@
+import { UpdatePasswordForm } from "@/components/forms/ChangePasswordForm";
 import { CompanyFormValues } from "@/components/forms/CompanyForm";
+import { CreateEmployeeForm } from "@/components/forms/CreateEmployeeForm";
 import { EmployerFormValues } from "@/components/forms/EmployerForm";
 import { UpdateEmployerForm } from "@/components/forms/UpdateProfile";
-import { UpdatePasswordForm } from "@/components/modals/ChangePassword";
 import apiClient from "@/lib/axios";
 import { IResponse } from "@/types/auth";
-import { Company, Employer } from "@/types/employer";
+import { Company, Employee, Employer } from "@/types/employer";
 import { AxiosError } from "axios";
 
 export async function createEmployer(payload: EmployerFormValues) {
@@ -37,15 +38,11 @@ export async function createCompany(
 	}
 }
 
-export async function updateEmployer(
-	payload: UpdateEmployerForm,
-	token: string
-) {
+export async function updateEmployer(payload: UpdateEmployerForm) {
 	try {
 		const res = await apiClient.put<IResponse<Employer>>(
 			"/employer/update",
-			payload,
-			{ headers: { Authorization: `Bearer ${token}` } }
+			payload
 		);
 		return res.data;
 	} catch (error) {
@@ -53,15 +50,23 @@ export async function updateEmployer(
 	}
 }
 
-export async function updatePassword(
-	payload: UpdatePasswordForm,
-	token: string
-) {
+export async function updatePassword(payload: UpdatePasswordForm) {
 	try {
 		const res = await apiClient.patch<IResponse<Employer>>(
 			"/employer/update/password",
-			payload,
-			{ headers: { Authorization: `Bearer ${token}` } }
+			payload
+		);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function createEmployee(payload: CreateEmployeeForm) {
+	try {
+		const res = await apiClient.patch<IResponse<Employee>>(
+			"/employee/create",
+			payload
 		);
 		return res.data;
 	} catch (error) {
