@@ -10,6 +10,7 @@ import Redirecting from "./pages/Redirecting";
 import Employees from "./pages/Employees";
 import CreateEmployeeForm from "./components/forms/CreateEmployeeForm";
 import EmployeeTable from "./components/EmployeeTable";
+import UpdateEmployeeForm from "./components/forms/UpdateEmployeeForm";
 
 // Desc: Main App component for the application.
 function App() {
@@ -71,6 +72,10 @@ function App() {
 						<Route
 							path=""
 							element={<EmployeeTable />}
+						/>
+						<Route
+							path=":employeeId"
+							element={<UpdateEmployeeForm />}
 						/>
 						<Route
 							path="create"

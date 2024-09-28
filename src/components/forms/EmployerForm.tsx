@@ -68,6 +68,7 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 	const { mutate, isPending } = useCreateEmployer();
 
 	const onSubmit = (data: EmployerFormValues) => {
+		console.log(data);
 		mutate(data, {
 			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
 		});
