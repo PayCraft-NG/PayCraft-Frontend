@@ -1,4 +1,5 @@
 import { API_STATUS_CODES } from "@/constants/statusCodes";
+import { useAuthStore } from "@/store/auth";
 import { IResponse } from "@/types/auth";
 import axios, { AxiosError } from "axios";
 
@@ -11,6 +12,18 @@ const apiClient = axios.create({
 });
 
 export default apiClient;
+
+// Add authToken to the requests
+apiClient.interceptors.request.use(function (config) {
+	if (!config.url?.includes("auth")) {
+		const accessToken = useAuthStore.getState().accessToken;
+		config.headers["Authorization"] = accessToken
+			? `Bearer ${accessToken}`
+			: null;
+	}
+
+	return config;
+});
 
 // Intreceptors for Error Handling
 apiClient.interceptors.response.use(

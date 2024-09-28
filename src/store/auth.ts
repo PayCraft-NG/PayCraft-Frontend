@@ -7,7 +7,7 @@ interface AuthStoreProps {
 	};
 }
 
-const useAuthStore = create<AuthStoreProps>((set) => ({
+export const useAuthStore = create<AuthStoreProps>((set) => ({
 	accessToken: null,
 	actions: {
 		setAccessToken: (token) => set({ accessToken: token }),

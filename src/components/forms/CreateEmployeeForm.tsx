@@ -1,23 +1,26 @@
+import { CurrencyOptions } from "@/constants/data";
+import { BankAccountRegex, PhoneRegex } from "@/constants/regex";
+import { useCreateEmployee } from "@/hooks/employee/useCreateEmployee";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { ArrowLeft, CalendarIcon } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import { format } from "date-fns";
-import { Input } from "../ui/input";
-import { BankAccountRegex, PhoneRegex } from "@/constants/regex";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createRenderInput } from "./CreateRenderInput";
-import { ArrowLeft, CalendarIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Calendar } from "../ui/calendar";
 import {
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
 } from "../ui/card";
-import { useCreateEmployee } from "@/hooks/employee/useCreateEmployee";
+import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
 	Select,
 	SelectContent,
@@ -25,10 +28,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
-import { CurrencyOptions } from "@/constants/data";
-import { Calendar } from "../ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
+import { createRenderInput } from "./CreateRenderInput";
 
 const schema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
@@ -94,7 +94,7 @@ const CreateEmployeeForm = () => {
 	const onSubmit = (data: CreateEmployeeForm) => {
 		createEmployee(data);
 		console.log(data);
-		// reset();
+		reset();
 	};
 
 	return (

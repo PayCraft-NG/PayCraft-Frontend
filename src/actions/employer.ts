@@ -64,7 +64,7 @@ export async function updatePassword(payload: UpdatePasswordForm) {
 
 export async function createEmployee(payload: CreateEmployeeForm) {
 	try {
-		const res = await apiClient.patch<IResponse<Employee>>(
+		const res = await apiClient.post<IResponse<Employee>>(
 			"/employee/create",
 			payload
 		);
