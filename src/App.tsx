@@ -10,6 +10,7 @@ import Redirecting from "./pages/Redirecting";
 import Employees from "./pages/Employees";
 import CreateEmployeeForm from "./components/forms/CreateEmployeeForm";
 import EmployeeTable from "./components/EmployeeTable";
+import UpdateEmployeeForm from "./components/forms/UpdateEmployeeForm";
 import Payroll from "./pages/Payroll";
 import PayrollTable from "./components/payroll/PayrollTable";
 
@@ -73,6 +74,10 @@ function App() {
 						<Route
 							path=""
 							element={<EmployeeTable />}
+						/>
+						<Route
+							path=":employeeId"
+							element={<UpdateEmployeeForm />}
 						/>
 						<Route
 							path="create"

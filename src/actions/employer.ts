@@ -73,3 +73,26 @@ export async function createEmployee(payload: CreateEmployeeForm) {
 		throw error as AxiosError;
 	}
 }
+
+export async function updateEmployee(employeeId: string, payload: Employee) {
+	try {
+		const res = await apiClient.put<IResponse<Employee>>(
+			`/employee/${employeeId}`,
+			payload
+		);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function removeEmployee(employeeId: string) {
+	try {
+		const res = await apiClient.delete<IResponse<Employee>>(
+			`/employee/${employeeId}`
+		);
+		return res.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}

@@ -30,6 +30,7 @@ export const useRefreshToken = () => {
 				setAccessToken(res.data.accessToken);
 				setCookie("refresh_token", res.data.accessToken, {
 					maxAge: convertToSeconds(res.data.refreshTokenValidityTime),
+					path: "/",
 					sameSite: true,
 					secure: true,
 				});

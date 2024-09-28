@@ -33,7 +33,7 @@ export interface Employee {
 	firstName: string;
 	lastName: string;
 	emailAddress: string;
-	dateOfBirth: string;
+	dateOfBirth: Date;
 	streetAddress: string;
 	phoneNumber: string;
 	jobTitle: string;
