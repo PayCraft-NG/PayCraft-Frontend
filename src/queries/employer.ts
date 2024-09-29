@@ -1,6 +1,6 @@
 import apiClient from "@/lib/axios";
 import { IResponse } from "@/types/auth";
-import { Employee, Employer } from "@/types/employer";
+import { Employee, Employer, Payroll } from "@/types/employer";
 import { AxiosError } from "axios";
 
 export async function getEmployer() {
@@ -25,7 +25,27 @@ export async function getEmployee(employeeId: string) {
 
 export async function getAllEmployees() {
 	try {
-		const res = await apiClient.get<IResponse<Employee[]>>("/employee");
+		const res = await apiClient.get<IResponse<Employee[]>>("/employee/all");
+		return res.data.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function getPayrollById(payrollId: string) {
+	try {
+		const res = await apiClient.get<IResponse<Payroll>>(
+			`/payroll/${payrollId}`
+		);
+		return res.data.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function getAllPayrolls() {
+	try {
+		const res = await apiClient.get<IResponse<Payroll[]>>("/payroll/all");
 		return res.data.data;
 	} catch (error) {
 		throw error as AxiosError;

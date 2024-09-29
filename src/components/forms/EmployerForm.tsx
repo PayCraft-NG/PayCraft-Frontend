@@ -70,7 +70,7 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 	const onSubmit = (data: EmployerFormValues) => {
 		console.log(data);
 		mutate(data, {
-			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
+			onSuccess: (res) => navigate(`/company/create/${res.data.employerId}`),
 		});
 	};
 

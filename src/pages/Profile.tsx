@@ -15,11 +15,6 @@ const Profile = () => {
 					>
 						My Profile
 					</Link>
-					<Link to="#">Security</Link>
-					<Link to="#">Integrations</Link>
-					<Link to="#">Support</Link>
-					<Link to="#">Organizations</Link>
-					<Link to="#">Advanced</Link>
 				</nav>
 				<UpdateProfile />
 			</div>

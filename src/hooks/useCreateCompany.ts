@@ -19,6 +19,7 @@ export const useCreateCompany = (employerId: string) => {
 				res.statusCode === AUTH_STATUS_CODES.ONBOARD_SUCCESS
 			) {
 				toast({
+					title: "Company Created",
 					description: res.statusMessage,
 				});
 				navigate("/dashboard");

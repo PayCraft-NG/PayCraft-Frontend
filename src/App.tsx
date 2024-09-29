@@ -1,16 +1,21 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import CreateCompany from "./pages/CreateCompany";
-import LoginPage from "./pages/Login";
-import SignUpPage from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
 import MainLayout from "./components/dashboard/MainLayout";
-import Profile from "./pages/Profile";
-import ProtectedRoutes from "./components/ProtectedRoutes";
-import Redirecting from "./pages/Redirecting";
-import Employees from "./pages/Employees";
-import CreateEmployeeForm from "./components/forms/CreateEmployeeForm";
 import EmployeeTable from "./components/EmployeeTable";
+import CreateEmployeeForm from "./components/forms/CreateEmployeeForm";
+import CreatePayrollForm from "./components/forms/CreatePayrollForm";
 import UpdateEmployeeForm from "./components/forms/UpdateEmployeeForm";
+import PayrollEmployeeTable from "./components/payroll/PayrollEmployeeTable";
+import PayrollTable from "./components/payroll/PayrollTable";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import CreateCompany from "./pages/CreateCompany";
+import Dashboard from "./pages/Dashboard";
+import Employees from "./pages/Employees";
+import LoginPage from "./pages/Login";
+import Payroll from "./pages/Payroll";
+import Profile from "./pages/Profile";
+import Redirecting from "./pages/Redirecting";
+import SignUpPage from "./pages/SignUp";
+import UpdatePayrollForm from "./components/forms/UpdatePayrollForm";
 
 // Desc: Main App component for the application.
 function App() {
@@ -44,7 +49,7 @@ function App() {
 			/>
 
 			<Route
-				path="/company/:employerId?"
+				path="/company/create/:employerId?"
 				element={<CreateCompany />}
 			/>
 
@@ -74,12 +79,34 @@ function App() {
 							element={<EmployeeTable />}
 						/>
 						<Route
-							path=":employeeId"
+							path=":employeeId?"
 							element={<UpdateEmployeeForm />}
 						/>
 						<Route
 							path="create"
 							element={<CreateEmployeeForm />}
+						/>
+					</Route>
+					<Route
+						path="payroll"
+						element={<Payroll />}
+					>
+						<Route
+							path=""
+							element={<PayrollTable />}
+						/>
+						<Route
+							path="create"
+							element={<CreatePayrollForm />}
+						/>
+						<Route
+							path=":payrollId?"
+							element={
+								<div className="grid gap-y-7">
+									<UpdatePayrollForm />
+									<PayrollEmployeeTable />
+								</div>
+							}
 						/>
 					</Route>
 				</Route>

@@ -28,6 +28,7 @@ import {
 } from "../ui/select";
 import { createRenderInput } from "./CreateRenderInput";
 import { EmployeeSchema } from "./UpdateEmployeeForm";
+import { useState } from "react";
 
 const schema = EmployeeSchema.extend({
 	bvn: z
@@ -52,6 +53,8 @@ const CreateEmployeeForm = () => {
 			salaryCurrency: CurrencyOptions[0],
 		},
 	});
+
+	const [open, setOpen] = useState(false);
 
 	const renderInput = createRenderInput<CreateEmployeeForm>(
 		Input,
@@ -118,7 +121,10 @@ const CreateEmployeeForm = () => {
 									name="dateOfBirth"
 									control={control}
 									render={({ field }) => (
-										<Popover>
+										<Popover
+											open={open}
+											onOpenChange={setOpen}
+										>
 											<PopoverTrigger asChild>
 												<Button
 													variant={"outline"}
@@ -142,7 +148,10 @@ const CreateEmployeeForm = () => {
 												<Calendar
 													mode="single"
 													selected={field.value}
-													onSelect={field.onChange}
+													onSelect={(date) => {
+														field.onChange(date);
+														setOpen(false);
+													}}
 													disabled={(date) =>
 														date > new Date() || date < new Date("1900-01-01")
 													}

@@ -62,18 +62,16 @@ const EmployeeTable = () => {
 									<TableCell>{employee.jobTitle}</TableCell>
 									<TableCell>{employee.department}</TableCell>
 									<TableCell>
-										<div className="flex space-x-2">
-											<Button
-												size="sm"
-												variant="outline"
-												asChild
-											>
-												<Link to={`/dashboard/employee/${employee.employeeId}`}>
-													<Eye className="mr-2 h-4 w-4" />
-													View
-												</Link>
-											</Button>
-										</div>
+										<Button
+											size="sm"
+											variant="outline"
+											asChild
+										>
+											<Link to={`/dashboard/employee/${employee.employeeId}`}>
+												<Eye className="mr-2 h-4 w-4" />
+												View
+											</Link>
+										</Button>
 									</TableCell>
 								</TableRow>
 							))}

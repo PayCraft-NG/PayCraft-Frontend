@@ -14,6 +14,7 @@ export const useCreateEmployee = () => {
 		onSuccess: (res) => {
 			if (res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS) {
 				toast({
+					title: "Employee Created",
 					description: res.statusMessage,
 				});
 				navigate("/dashboard/employee");

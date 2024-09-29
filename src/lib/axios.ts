@@ -42,6 +42,7 @@ apiClient.interceptors.response.use(
 				response
 			);
 		}
+
 		return response;
 	},
 	(error: AxiosError) => {

@@ -1,5 +1,4 @@
 import { useRefreshToken } from "@/hooks/useRefreshToken";
-import { useAuth } from "@/store/auth";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -8,22 +7,13 @@ import { Navigate, useLocation } from "react-router-dom";
 const Redirecting = () => {
 	const { mutateAsync: refreshToken } = useRefreshToken();
 	const [cookie] = useCookies(["refresh_token"]);
-	const accessToken = useAuth();
 	const location = useLocation();
 
 	useEffect(() => {
-		const attemptTokenRefresh = async () => {
-			try {
-				await refreshToken({ refreshToken: cookie?.refresh_token });
-			} catch (error) {
-				console.error("Token refresh failed:", error);
-			}
-		};
+		refreshToken({ refreshToken: cookie.refresh_token });
+	}, []);
 
-		attemptTokenRefresh();
-	}, [cookie?.refresh_token, refreshToken, accessToken]);
-
-	if (!accessToken)
+	if (!cookie.refresh_token)
 		return (
 			<Navigate
 				to="/login"

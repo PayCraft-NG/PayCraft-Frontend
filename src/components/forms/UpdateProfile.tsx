@@ -130,7 +130,7 @@ const UpdateProfile = () => {
 			<div className="flex justify-end space-x-4">
 				<Button
 					type="button"
-					disabled={employerLoading}
+					disabled={employerLoading || isPending}
 					onClick={() => handleEdit()}
 				>
 					{isEditing ? "Cancel" : "Edit"}

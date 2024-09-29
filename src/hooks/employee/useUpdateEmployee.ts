@@ -17,6 +17,7 @@ export const useUpdateEmployee = (employeeId?: string) => {
 		onSuccess: (res) => {
 			if (res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS) {
 				toast({
+					title: "Employee Updated",
 					description: res.statusMessage,
 				});
 			}
