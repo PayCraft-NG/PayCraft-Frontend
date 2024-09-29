@@ -56,11 +56,14 @@ export default function ReactQueryClientProvider({
 							const clientError = errorResponse as IResponse<
 								Record<string, string>
 							>;
-							toast({
-								variant: "destructive",
-								title: "Validation Error",
-								description: clientError.statusMessage,
-							});
+							const messages = Object.values(clientError.data);
+							messages.flatMap((message) =>
+								toast({
+									variant: "destructive",
+									title: "Validation Error",
+									description: message,
+								})
+							);
 						} else {
 							toast({
 								variant: "destructive",

@@ -25,7 +25,7 @@ export async function getEmployee(employeeId: string) {
 
 export async function getAllEmployees() {
 	try {
-		const res = await apiClient.get<IResponse<Employee[]>>("/employee");
+		const res = await apiClient.get<IResponse<Employee[]>>("/employee/all");
 		return res.data.data;
 	} catch (error) {
 		throw error as AxiosError;
@@ -37,6 +37,15 @@ export async function getPayrollById(payrollId: string) {
 		const res = await apiClient.get<IResponse<Payroll>>(
 			`/payroll/${payrollId}`
 		);
+		return res.data.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function getAllPayrolls() {
+	try {
+		const res = await apiClient.get<IResponse<Payroll[]>>("/payroll/all");
 		return res.data.data;
 	} catch (error) {
 		throw error as AxiosError;

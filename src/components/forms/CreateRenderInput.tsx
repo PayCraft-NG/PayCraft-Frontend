@@ -6,12 +6,14 @@ import {
 } from "react-hook-form";
 import { InputProps } from "../ui/input";
 import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
 
 interface RenderInputProps<TFieldValues extends FieldValues> {
 	name: Path<TFieldValues>;
 	label: string;
 	type: string;
 	placeholder?: string;
+	className?: string;
 }
 
 export function createRenderInput<TFieldValues extends FieldValues>(
@@ -27,11 +29,12 @@ export function createRenderInput<TFieldValues extends FieldValues>(
 		label,
 		type = "text",
 		placeholder = "",
+		className,
 	}: RenderInputProps<TFieldValues>) {
 		return (
 			<div>
 				<Label
-					className="text-sm font-normal"
+					className={cn("text-sm font-normal", className)}
 					htmlFor={name}
 				>
 					{label}

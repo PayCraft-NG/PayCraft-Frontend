@@ -12,6 +12,7 @@ export const useUpdatePassword = () => {
 		onSuccess: (res) => {
 			if (res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS) {
 				toast({
+					title: "Password Updated",
 					description: res.statusMessage,
 				});
 			}

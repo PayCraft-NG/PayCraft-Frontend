@@ -18,6 +18,7 @@ export interface Company {
 }
 
 export interface Payroll {
+	payrollName: string;
 	payrollId: string;
 	automatic: boolean;
 	payPeriodStart: string;
@@ -25,6 +26,7 @@ export interface Payroll {
 	lastRunDate: string;
 	cronExpression: string;
 	paymentStatus: string;
+	companyDTO: Company;
 }
 
 export interface Employee {
@@ -42,4 +44,5 @@ export interface Employee {
 	accountNumber: string;
 	salaryAmount: number;
 	salaryCurrency: string;
+	bvn: string;
 }

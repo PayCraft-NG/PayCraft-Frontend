@@ -49,10 +49,10 @@ const NavBar = () => {
 					Employees
 				</Link>
 				<Link
-					to="#"
+					to="/dashboard/payroll"
 					className="text-muted-foreground transition-colors hover:text-foreground"
 				>
-					Customers
+					Payroll
 				</Link>
 				<Link
 					to="#"
@@ -107,10 +107,10 @@ const NavBar = () => {
 							Employees
 						</Link>
 						<Link
-							to="#"
+							to="/dashboard/payroll"
 							className="text-muted-foreground hover:text-foreground"
 						>
-							Customers
+							Payroll
 						</Link>
 						<Link
 							to="#"

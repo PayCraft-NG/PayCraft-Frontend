@@ -1,24 +1,24 @@
-import { updateEmployer } from "@/actions/employer";
+import { runPayroll } from "@/actions/employer";
 import { API_STATUS_CODES } from "@/constants/statusCodes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "./use-toast";
+import { useToast } from "../use-toast";
 
-export const useUpdateEmployer = () => {
+export const useRunPayroll = () => {
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: updateEmployer,
+		mutationFn: runPayroll,
 		onSuccess: (res) => {
 			if (res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS) {
 				toast({
-					title: "Employee Updated",
+					title: "Payroll Started",
 					description: res.statusMessage,
 				});
 			}
 		},
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ["employer"] });
+			queryClient.invalidateQueries({ queryKey: ["payrolls"] });
 		},
 	});
 };

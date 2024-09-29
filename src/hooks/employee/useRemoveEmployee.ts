@@ -15,7 +15,8 @@ export const useRemoveEmployee = () => {
 		onSuccess: (res) => {
 			if (res.statusCode === API_STATUS_CODES.REQUEST_SUCCESS) {
 				toast({
-					description: "Employee Deleted",
+					title: "Employee Deleted",
+					description: res.statusMessage,
 				});
 				navigate("/dashboard/employee");
 			}

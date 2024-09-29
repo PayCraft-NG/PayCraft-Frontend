@@ -1,6 +1,7 @@
 import { CurrencyOptions } from "@/constants/data";
 import { BankAccountRegex, PhoneRegex } from "@/constants/regex";
 import { useEmployee } from "@/hooks/employee/useEmployee";
+import { useRemoveEmployee } from "@/hooks/employee/useRemoveEmployee";
 import { useUpdateEmployee } from "@/hooks/employee/useUpdateEmployee";
 import { cn } from "@/lib/utils";
 import { Employee } from "@/types/employer";
@@ -25,7 +26,6 @@ import {
 	SelectValue,
 } from "../ui/select";
 import { createRenderInput } from "./CreateRenderInput";
-import { useRemoveEmployee } from "@/hooks/employee/useRemoveEmployee";
 
 export const EmployeeSchema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
@@ -62,6 +62,8 @@ export const EmployeeSchema = z.object({
 const UpdateEmployeeForm = () => {
 	const { employeeId } = useParams();
 	const [isEditing, setIsEditing] = useState(false);
+	const [open, setOpen] = useState(false);
+
 	const { data: employeeDetails, isPending: employeeLoading } =
 		useEmployee(employeeId);
 
@@ -96,10 +98,12 @@ const UpdateEmployeeForm = () => {
 	const handleDelete = () => removeEmployee(employeeId!);
 
 	const onSubmit = (data: Employee) => {
-		console.log(data);
-		updateEmployee(data, {
-			onSuccess: () => setIsEditing(false),
-		});
+		updateEmployee(
+			{ ...employeeDetails, ...data },
+			{
+				onSettled: () => setIsEditing(false),
+			}
+		);
 	};
 
 	return (
@@ -111,7 +115,7 @@ const UpdateEmployeeForm = () => {
 						variant="destructive"
 						size="sm"
 						onClick={handleDelete}
-						disabled={isDeleting}
+						disabled={isDeleting || employeeLoading}
 					>
 						<Trash2 className="mr-2 h-4 w-4" />
 						Delete Employee
@@ -153,7 +157,10 @@ const UpdateEmployeeForm = () => {
 										name="dateOfBirth"
 										control={control}
 										render={({ field }) => (
-											<Popover>
+											<Popover
+												open={open}
+												onOpenChange={setOpen}
+											>
 												<PopoverTrigger
 													disabled={!isEditing}
 													asChild
@@ -180,7 +187,10 @@ const UpdateEmployeeForm = () => {
 													<Calendar
 														mode="single"
 														selected={field.value}
-														onSelect={field.onChange}
+														onSelect={(date) => {
+															field.onChange(date);
+															setOpen(false);
+														}}
 														disabled={(date) =>
 															date > new Date() || date < new Date("1900-01-01")
 														}
