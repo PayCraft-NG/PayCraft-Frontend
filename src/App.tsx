@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Redirecting from "./pages/Redirecting";
 import SignUpPage from "./pages/SignUp";
 import UpdatePayrollForm from "./components/forms/UpdatePayrollForm";
+import NotFoundPage from "./pages/NotFound";
 
 // Desc: Main App component for the application.
 function App() {
@@ -115,7 +116,7 @@ function App() {
 			{/* 404 */}
 			<Route
 				path="*"
-				element={<>404</>}
+				element={<NotFoundPage />}
 			/>
 		</Routes>
 	);
