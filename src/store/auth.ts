@@ -4,16 +4,15 @@ interface AuthStoreProps {
 	accessToken: string | null;
 	actions: {
 		setAccessToken: (token: string) => void;
+		logout: () => void;
 	};
 }
 
 export const useAuthStore = create<AuthStoreProps>((set) => ({
 	accessToken: null,
 	actions: {
-		setAccessToken: (token) => {
-			console.log(token);
-			return set({ accessToken: token });
-		},
+		setAccessToken: (token) => set({ accessToken: token }),
+		logout: () => set({ accessToken: null }),
 	},
 }));
 
