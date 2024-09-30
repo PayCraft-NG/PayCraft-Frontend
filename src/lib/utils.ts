@@ -29,3 +29,11 @@ export function convertToSeconds(timeStr: string): number {
 	const multiplier = multipliers[unit.toLowerCase()];
 	return multiplier ? time * multiplier : DEFAULT_TIME;
 }
+
+export const formatNumber = (value: number) => {
+	// Remove non-digit characters
+	const digits = `${value}`.replace(/\D/g, "");
+
+	// Format the number with commas
+	return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
