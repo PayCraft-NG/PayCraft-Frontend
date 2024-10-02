@@ -26,6 +26,7 @@ import {
 	SelectValue,
 } from "../ui/select";
 import { createRenderInput } from "./CreateRenderInput";
+import { useAllBanks } from "@/hooks/employee/useAllBanks";
 
 export const EmployeeSchema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
@@ -63,6 +64,8 @@ const UpdateEmployeeForm = () => {
 	const { employeeId } = useParams();
 	const [isEditing, setIsEditing] = useState(false);
 	const [open, setOpen] = useState(false);
+
+	const { data: allBanks, isPending: allBanksLoading } = useAllBanks();
 
 	const { data: employeeDetails, isPending: employeeLoading } =
 		useEmployee(employeeId);
@@ -233,11 +236,60 @@ const UpdateEmployeeForm = () => {
 							</div>
 
 							<div className="grid sm:grid-cols-2 gap-x-6 md:gap-x-8 gap-y-4">
-								{renderInput({
-									name: "bankName",
-									label: "Bank Name",
-									type: "text",
-								})}
+								<div>
+									<Label
+										className="text-sm font-normal"
+										htmlFor="bankName"
+									>
+										Bank Name
+									</Label>
+									<Controller
+										name="bankName"
+										control={control}
+										render={({ field }) => (
+											<Select
+												{...field}
+												onValueChange={field.onChange}
+												disabled={allBanksLoading}
+											>
+												<SelectTrigger className="my-1 text-sm">
+													<SelectValue placeholder="Select your Bank" />
+												</SelectTrigger>
+												<SelectContent>
+													{allBanksLoading ? (
+														<SelectItem
+															value="loading"
+															disabled
+														>
+															Loading...
+														</SelectItem>
+													) : allBanks && allBanks.length > 0 ? (
+														allBanks.map((option) => (
+															<SelectItem
+																key={option}
+																value={option}
+															>
+																{option}
+															</SelectItem>
+														))
+													) : (
+														<SelectItem
+															value="No Options"
+															disabled
+														>
+															No options available
+														</SelectItem>
+													)}
+												</SelectContent>
+											</Select>
+										)}
+									/>
+									{errors.bankName && (
+										<p className="text-red-500 font-medium text-xs text-wrap">
+											{errors.bankName?.message}
+										</p>
+									)}
+								</div>
 								{renderInput({
 									name: "accountNumber",
 									label: "Account Number",

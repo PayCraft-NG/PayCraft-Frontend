@@ -1,4 +1,5 @@
 import { PasswordRegex, PhoneRegex } from "@/constants/regex";
+import { useCreateEmployer } from "@/hooks/useCreateEmployer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { motion } from "framer-motion";
@@ -7,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useCreateEmployer } from "@/hooks/useCreateEmployer";
-import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
@@ -56,22 +55,15 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			{ shouldFocus: true }
 		);
 
-		console.log(errors);
-
 		if (!isPageValid) return;
 
 		setPage(1);
 	};
 
-	const navigate = useNavigate();
-
-	const { mutate, isPending } = useCreateEmployer();
+	const { mutate: createEmployer, isPending } = useCreateEmployer();
 
 	const onSubmit = (data: EmployerFormValues) => {
-		console.log(data);
-		mutate(data, {
-			onSuccess: (res) => navigate(`/company/create/${res.data.employerId}`),
-		});
+		createEmployer(data);
 	};
 
 	const renderInput = (

@@ -51,3 +51,12 @@ export async function getAllPayrolls() {
 		throw error as AxiosError;
 	}
 }
+
+export async function getAllBanks() {
+	try {
+		const res = await apiClient.get<IResponse<string[]>>("/account/banks");
+		return res.data.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
