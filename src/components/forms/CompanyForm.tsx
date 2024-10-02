@@ -14,6 +14,7 @@ import {
 	SelectValue,
 } from "../ui/select";
 import { CountryOptions, CurrencyOptions, SizeOptions } from "@/constants/data";
+import { LoaderCircle } from "lucide-react";
 
 const companySchema = z.object({
 	companyName: z
@@ -42,7 +43,7 @@ interface Props {
 }
 
 const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
-	const { mutate: createCompany } = useCreateCompany(employerId);
+	const { mutate: createCompany, isPending } = useCreateCompany(employerId);
 
 	const {
 		register,
@@ -286,7 +287,7 @@ const CompanyForm = ({ employerId, currentPage, setPage }: Props) => {
 							disabled={!isValid}
 							className="w-full max-w-[100px] sm:max-w-[150px] lg:max-w-[200px] text-base"
 						>
-							Next
+							{isPending ? <LoaderCircle className="animate-spin" /> : "Submit"}
 						</Button>
 					</div>
 				</motion.div>

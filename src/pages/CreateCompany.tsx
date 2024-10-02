@@ -4,19 +4,21 @@ import CompanyForm from "@/components/forms/CompanyForm";
 import AuthLayout from "@/layout/AuthLayout";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { useReadLocalStorage } from "usehooks-ts";
 
 const pages = [{ title: "Setup a Company" }, { title: "Company Info" }];
 
 const CreateCompany = () => {
 	const [currentPage, setCurrentPage] = useState(0);
-	const { employerId } = useParams();
+	const employerId = useReadLocalStorage<string | null>("employerId");
+	const location = useLocation();
 
 	if (!employerId) {
-		console.log("No employerId, redirecting to signup");
 		return (
 			<Navigate
-				to="/signup"
+				to="/login"
+				state={{ from: location }}
 				replace
 			/>
 		);

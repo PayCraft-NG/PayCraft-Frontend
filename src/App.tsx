@@ -50,7 +50,7 @@ function App() {
 			/>
 
 			<Route
-				path="/company/create/:employerId?"
+				path="company/create"
 				element={<CreateCompany />}
 			/>
 

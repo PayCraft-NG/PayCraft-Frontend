@@ -29,6 +29,7 @@ import {
 import { createRenderInput } from "./CreateRenderInput";
 import { EmployeeSchema } from "./UpdateEmployeeForm";
 import { useState } from "react";
+import { useAllBanks } from "@/hooks/employee/useAllBanks";
 
 const schema = EmployeeSchema.extend({
 	bvn: z
@@ -40,6 +41,8 @@ const schema = EmployeeSchema.extend({
 export type CreateEmployeeForm = z.infer<typeof schema>;
 
 const CreateEmployeeForm = () => {
+	const { data: allBanks, isPending: allBanksLoading } = useAllBanks();
+
 	const {
 		register,
 		handleSubmit,
@@ -204,12 +207,60 @@ const CreateEmployeeForm = () => {
 								type: "text",
 								placeholder: "Enter your BVN",
 							})}
-							{renderInput({
-								name: "bankName",
-								label: "Bank Name",
-								type: "text",
-								placeholder: "Enter your bank name",
-							})}
+							<div>
+								<Label
+									className="text-sm font-normal"
+									htmlFor="bankName"
+								>
+									Bank Name
+								</Label>
+								<Controller
+									name="bankName"
+									control={control}
+									render={({ field }) => (
+										<Select
+											{...field}
+											onValueChange={field.onChange}
+											disabled={allBanksLoading}
+										>
+											<SelectTrigger className="my-1 text-sm">
+												<SelectValue placeholder="Select your Bank" />
+											</SelectTrigger>
+											<SelectContent>
+												{allBanksLoading ? (
+													<SelectItem
+														value="loading"
+														disabled
+													>
+														Loading...
+													</SelectItem>
+												) : allBanks && allBanks.length > 0 ? (
+													allBanks.map((option) => (
+														<SelectItem
+															key={option}
+															value={option}
+														>
+															{option}
+														</SelectItem>
+													))
+												) : (
+													<SelectItem
+														value="No Options"
+														disabled
+													>
+														No options available
+													</SelectItem>
+												)}
+											</SelectContent>
+										</Select>
+									)}
+								/>
+								{errors.bankName && (
+									<p className="text-red-500 font-medium text-xs text-wrap">
+										{errors.bankName?.message}
+									</p>
+								)}
+							</div>
 						</div>
 
 						<div className="grid sm:grid-cols-2 gap-x-6 md:gap-x-8 gap-y-4">
@@ -263,7 +314,7 @@ const CreateEmployeeForm = () => {
 
 					<CardFooter className="flex justify-end space-x-2 mt-6 px-0">
 						<Button
-							disabled={isPending}
+							disabled={isPending || allBanksLoading}
 							type="submit"
 						>
 							Create

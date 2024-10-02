@@ -12,7 +12,6 @@ const Dashboard = () => {
 	const { data: wallet } = useWallet();
 	const { data: transactionsData } = useAllTransactions();
 	const { data: employees } = useEmployees();
-
 	return (
 		<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
 			<h1 className="font-semibold tracking-wide text-4xl flex items-center gap-x-1">
