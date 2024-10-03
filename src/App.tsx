@@ -17,6 +17,7 @@ import Redirecting from "./pages/Redirecting";
 import SignUpPage from "./pages/SignUp";
 import UpdatePayrollForm from "./components/forms/UpdatePayrollForm";
 import NotFoundPage from "./pages/NotFound";
+import Cards from "./pages/Cards";
 
 // Desc: Main App component for the application.
 function App() {
@@ -70,6 +71,10 @@ function App() {
 					<Route
 						path="profile"
 						element={<Profile />}
+					/>
+					<Route
+						path="cards"
+						element={<Cards />}
 					/>
 					<Route
 						path="employee"

@@ -53,3 +53,16 @@ export interface Transfer {
 	bankName: string;
 	expiryDate: string;
 }
+
+export interface Card {
+	cardNumber: string;
+	expiryMonth: string;
+	expiryYear: string;
+	cvv: string;
+	cardPin: string;
+	cardId: number;
+}
+
+export interface FundCardResponse extends Card {
+	amount: number;
+}
