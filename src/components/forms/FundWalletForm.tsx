@@ -3,7 +3,7 @@ import { useAllCards } from "@/hooks/wallet/useAllCards";
 import { useCardPayment } from "@/hooks/wallet/useCardPayment";
 import { useTransfer } from "@/hooks/wallet/useTransfer";
 import { formatNumber } from "@/lib/utils";
-import { FundCardResponse } from "@/types/wallet";
+import { Card, FundCardResponse } from "@/types/wallet";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Banknote, CreditCard, PlusCircle } from "lucide-react";
 import { useState } from "react";
@@ -44,6 +44,7 @@ const FundWalletForm = () => {
 	const [paymentMethod, setPaymentMethod] = useState<"transfer" | "card">(
 		"transfer"
 	);
+	const [selectedCard, setSelectedCard] = useState<Card>(null!);
 
 	const {
 		control,
@@ -62,15 +63,15 @@ const FundWalletForm = () => {
 	const { mutate: transferFund, isPending: isTransferring } = useTransfer();
 	const { mutate: cardFund, isPending: isCardPaying } = useCardPayment();
 
-	const onSubmit = (data: FundWalletForm) => {
-		console.log(data);
-		const selectedCard = cards?.filter((card) => card.cardId === data.cardId);
-		const payload = {
-			...selectedCard,
-			amount: data.amount,
-		} as FundCardResponse;
+	console.log(selectedCard);
 
+	const onSubmit = (data: FundWalletForm) => {
 		if (paymentMethod === "card") {
+			const payload = {
+				...selectedCard,
+				amount: data.amount,
+			} as FundCardResponse;
+			console.log(payload);
 			cardFund(payload, {
 				onSettled: () => setIsOpen(false),
 			});
@@ -173,7 +174,7 @@ const FundWalletForm = () => {
 									)}
 								</div>
 							</div>
-							{paymentMethod === "card" && (
+							{cards && paymentMethod === "card" && (
 								<div className="items-center gap-4">
 									<Label
 										htmlFor="cardId"
@@ -182,48 +183,46 @@ const FundWalletForm = () => {
 										Card
 									</Label>
 									<div>
-										<Controller
-											name="cardId"
-											control={control}
-											render={({ field }) => (
-												<Select
-													{...field}
-													value={field.value?.toString()}
-													onValueChange={field.onChange}
-												>
-													<SelectTrigger className="my-1 text-sm">
-														<SelectValue placeholder="Select your Card" />
-													</SelectTrigger>
-													<SelectContent>
-														{cardsLoading ? (
-															<SelectItem
-																value="loading"
-																disabled
-															>
-																Loading...
-															</SelectItem>
-														) : cards && cards.length > 0 ? (
-															cards.map((card) => (
-																<SelectItem
-																	key={card.cardId}
-																	value={card.cardId.toString()}
-																	className="text-sm"
-																>
-																	{`${card.cardNumber}  (Expires:${card.expiryMonth}/${card.expiryYear})`}
-																</SelectItem>
-															))
-														) : (
-															<SelectItem
-																value="No Options"
-																disabled
-															>
-																No options available
-															</SelectItem>
-														)}
-													</SelectContent>
-												</Select>
-											)}
-										/>
+										<Select
+											value={selectedCard?.cardId}
+											onValueChange={(value) => {
+												const card = cards?.find((p) => p?.cardId === value);
+												if (card) {
+													setSelectedCard(card);
+												}
+											}}
+										>
+											<SelectTrigger className="my-1 text-sm">
+												<SelectValue placeholder="Select your Card" />
+											</SelectTrigger>
+											<SelectContent>
+												{cardsLoading ? (
+													<SelectItem
+														value="loading"
+														disabled
+													>
+														Loading...
+													</SelectItem>
+												) : cards && cards.length > 0 ? (
+													cards.map((card) => (
+														<SelectItem
+															key={card?.cardId}
+															value={card?.cardId}
+															className="text-sm"
+														>
+															{`${card?.cardNumber}  (Expires:${card?.expiryMonth}/${card?.expiryYear})`}
+														</SelectItem>
+													))
+												) : (
+													<SelectItem
+														value="No Options"
+														disabled
+													>
+														No options available
+													</SelectItem>
+												)}
+											</SelectContent>
+										</Select>
 										{errors.amount && (
 											<p className="text-red-500 font-medium text-xs text-wrap">
 												{errors.amount?.message}

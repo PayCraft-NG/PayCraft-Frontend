@@ -60,7 +60,7 @@ export interface Card {
 	expiryYear: string;
 	cvv: string;
 	cardPin: string;
-	cardId: number;
+	cardId: string;
 }
 
 export interface FundCardResponse extends Card {

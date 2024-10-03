@@ -31,7 +31,7 @@ export async function createCard(payload: CardForm) {
 	}
 }
 
-export async function removeCard(cardId: number) {
+export async function removeCard(cardId: string) {
 	try {
 		const res = await apiClient.delete<IResponse>("/account/card/delete", {
 			params: { cardId },
