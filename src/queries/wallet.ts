@@ -1,6 +1,11 @@
 import apiClient from "@/lib/axios";
 import { IResponse } from "@/types/auth";
-import { PaymentsResponse, TransactionsResponse, Wallet } from "@/types/wallet";
+import {
+	Card,
+	PaymentsResponse,
+	TransactionsResponse,
+	Wallet,
+} from "@/types/wallet";
 import { AxiosError } from "axios";
 
 export async function getWalletDetails() {
@@ -54,6 +59,15 @@ export async function verifyTransfer(referenceNumber: string) {
 				referenceNumber,
 			},
 		});
+		return res.data.data;
+	} catch (error) {
+		throw error as AxiosError;
+	}
+}
+
+export async function getAllCards() {
+	try {
+		const res = await apiClient.get<IResponse<Card[]>>("/account/card/all");
 		return res.data.data;
 	} catch (error) {
 		throw error as AxiosError;

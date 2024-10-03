@@ -64,10 +64,10 @@ const NavBar = () => {
 					Payroll
 				</Link>
 				<Link
-					to="#"
+					to="/dashboard/cards"
 					className="text-muted-foreground transition-colors hover:text-foreground"
 				>
-					Analytics
+					Cards
 				</Link>
 			</nav>
 			<Sheet>
@@ -122,10 +122,10 @@ const NavBar = () => {
 							Payroll
 						</Link>
 						<Link
-							to="#"
+							to="/dashboard/cards"
 							className="text-muted-foreground hover:text-foreground"
 						>
-							Analytics
+							Cards
 						</Link>
 					</nav>
 				</SheetContent>

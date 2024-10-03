@@ -250,9 +250,12 @@ const UpdateEmployeeForm = () => {
 											<Select
 												{...field}
 												onValueChange={field.onChange}
-												disabled={allBanksLoading}
+												disabled={allBanksLoading || isEditing}
 											>
-												<SelectTrigger className="my-1 text-sm">
+												<SelectTrigger
+													disabled={allBanksLoading || isEditing}
+													className="my-1 text-sm"
+												>
 													<SelectValue placeholder="Select your Bank" />
 												</SelectTrigger>
 												<SelectContent>
