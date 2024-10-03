@@ -29,40 +29,46 @@ export default function ReactQueryClientProvider({
 			defaultOptions: {
 				queries: {
 					refetchOnWindowFocus: false,
-					staleTime: 10 * 1000,
+					staleTime: 10 * 60 * 1000,
 				},
 			},
 			mutationCache: new MutationCache({
 				onError: (error) => {
-					if (error instanceof AxiosError) {
-						if (!error.response) {
+					if (!error.response) {
+						toast({
+							variant: "destructive",
+							title: "Network Error",
+							description: "Please check your internet connection.",
+						});
+					} else {
+						const errorResponse = error.response.data as APIError;
+
+						if ("apiPath" in errorResponse) {
+							// This is a ServerError
+							const serverError = errorResponse as ServerError;
 							toast({
 								variant: "destructive",
-								title: "Network Error",
-								description: "Please check your internet connection.",
+								title: "Server Error",
+								description: serverError.errorMsg,
 							});
-						} else {
-							const errorResponse = error.response.data as APIError;
-
-							if ("apiPath" in errorResponse) {
-								// This is a ServerError
-								const serverError = errorResponse as ServerError;
-								toast({
-									variant: "destructive",
-									title: "Server Error",
-									description: serverError.errorMsg,
-								});
-							} else {
-								// This is a Validation Error (IResponse)
-								const clientError = errorResponse as IResponse<
-									Record<string, string>
-								>;
+						} else if (errorResponse.data) {
+							// This is a Validation Error (IResponse)
+							const clientError = errorResponse as IResponse<
+								Record<string, string>
+							>;
+							const messages = Object.values(clientError.data);
+							messages.flatMap((message) =>
 								toast({
 									variant: "destructive",
 									title: "Validation Error",
-									description: clientError.statusMessage,
-								});
-							}
+									description: message,
+								})
+							);
+						} else {
+							toast({
+								variant: "destructive",
+								description: errorResponse.statusMessage,
+							});
 						}
 					}
 				},

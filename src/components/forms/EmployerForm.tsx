@@ -1,4 +1,5 @@
-import { passwordRegex, phoneRegex } from "@/constants/regex";
+import { PasswordRegex, PhoneRegex } from "@/constants/regex";
+import { useCreateEmployer } from "@/hooks/useCreateEmployer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { motion } from "framer-motion";
@@ -7,14 +8,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useCreateEmployer } from "@/hooks/useCreateEmployer";
-import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	firstName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	lastName: z.string().min(3, { message: "Minimum of 3 characters required" }),
 	emailAddress: z.string().email({ message: "Invalid email address" }),
-	phoneNumber: z.string().regex(phoneRegex, { message: "Invalid Number" }),
+	phoneNumber: z.string().regex(PhoneRegex, { message: "Invalid Number" }),
 	streetAddress: z
 		.string()
 		.min(3, { message: "Minimum of 3 characters required" }),
@@ -26,7 +25,7 @@ const schema = z.object({
 	password: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
-		.regex(passwordRegex, {
+		.regex(PasswordRegex, {
 			message:
 				"Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
 		}),
@@ -56,21 +55,15 @@ const EmployerForm = ({ currentPage, setPage }: Props) => {
 			{ shouldFocus: true }
 		);
 
-		console.log(errors);
-
 		if (!isPageValid) return;
 
 		setPage(1);
 	};
 
-	const navigate = useNavigate();
-
-	const { mutate, isPending } = useCreateEmployer();
+	const { mutate: createEmployer, isPending } = useCreateEmployer();
 
 	const onSubmit = (data: EmployerFormValues) => {
-		mutate(data, {
-			onSuccess: (res) => navigate(`/company/${res.data.employerId}`),
-		});
+		createEmployer(data);
 	};
 
 	const renderInput = (

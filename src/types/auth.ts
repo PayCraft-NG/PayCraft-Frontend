@@ -19,4 +19,7 @@ export interface ServerError {
 	errorTime: string;
 }
 
-export type APIError = IResponse<Record<string, string>> | ServerError;
+export type APIError =
+	| IResponse
+	| IResponse<Record<string, string>>
+	| ServerError;
