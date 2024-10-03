@@ -167,28 +167,32 @@ const UpdatePayrollForm = () => {
 					</div>
 				</form>
 				<div className="space-y-2">
-					<Label className="text-sm">Payroll Info</Label>
+					<Label className="text-sm mb-2">Payroll Info</Label>
 					{payrollDetails && (
 						<Card>
 							<CardContent className="pt-6">
 								<div className="grid gap-4 items-center sm:grid-cols-4">
-									<div>
-										<Label className="text-sm font-medium">
-											Pay Period Start
-										</Label>
-										<p className="mt-1 text-sm lg:text-base">
-											{payrollDetails.payPeriodStart}
-										</p>
-									</div>
+									{payrollDetails.automatic && (
+										<>
+											<div>
+												<Label className="text-sm font-medium">
+													Pay Period Start
+												</Label>
+												<p className="mt-1 text-sm lg:text-base">
+													{payrollDetails.payPeriodStart}
+												</p>
+											</div>
 
-									<div>
-										<Label className="text-sm font-medium">
-											Pay Period End
-										</Label>
-										<p className="mt-1 text-sm lg:text-base">
-											{payrollDetails?.payPeriodEnd}
-										</p>
-									</div>
+											<div>
+												<Label className="text-sm font-medium">
+													Pay Period End
+												</Label>
+												<p className="mt-1 text-sm lg:text-base">
+													{payrollDetails?.payPeriodEnd}
+												</p>
+											</div>
+										</>
+									)}
 
 									<div>
 										<Label className="text-sm font-medium">Last Run Date</Label>
