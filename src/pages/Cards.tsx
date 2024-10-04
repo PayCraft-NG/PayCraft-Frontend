@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { useAllCards } from "@/hooks/wallet/useAllCards";
 import { useRemoveCard } from "@/hooks/wallet/useRemoveCard";
+import { maskString } from "@/lib/utils";
 import { Loader2, Trash2 } from "lucide-react";
 
 const Cards = () => {
@@ -53,7 +54,7 @@ const Cards = () => {
 								{cards.map((card, index) => (
 									<TableRow key={card.cardId}>
 										<TableCell>{index + 1}</TableCell>
-										<TableCell>{card.cardNumber}</TableCell>
+										<TableCell>{maskString(card.cardNumber)}</TableCell>
 										<TableCell>{`${card.expiryMonth}/${card.expiryYear}`}</TableCell>
 										<TableCell>
 											<Button
