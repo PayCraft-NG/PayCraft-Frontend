@@ -38,19 +38,27 @@ export const formatNumber = (value: number) => {
 	return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const formatCardNumber = (value: string) => {
-	const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-	const matches = v.match(/\d{4,16}/g);
-	const match = (matches && matches[0]) || "";
-	const parts = [];
+export const formatCardNumber = (value: string): string => {
+	// Remove all non-digit characters
+	const digitsOnly = value.replace(/\D/g, "");
 
-	for (let i = 0, len = match.length; i < len; i += 4) {
-		parts.push(match.substring(i, i + 4));
-	}
+	// Limit the input to 16 digits
+	const truncated = digitsOnly.slice(0, 16);
 
-	if (parts.length) {
-		return parts.join(" ");
-	} else {
-		return value;
-	}
+	// Split the string into groups of 4 digits
+	const parts = truncated.match(/[\s\S]{1,4}/g) || [];
+
+	// Join the parts with a space
+	return parts.join(" ");
 };
+
+export function maskString(input: string): string {
+	if (input.length !== 16) {
+		throw new Error("Input string must be exactly 16 characters long");
+	}
+
+	const maskedPart = "*".repeat(12);
+	const visiblePart = input.slice(-4);
+
+	return maskedPart + visiblePart;
+}
