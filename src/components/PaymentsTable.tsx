@@ -1,4 +1,5 @@
-import { useAllPayments } from "@/hooks/wallet/useAllPayments";
+import { convertToReadableDate, formatNumber } from "@/lib/utils";
+import { PaymentsResponse } from "@/types/wallet";
 import { Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
@@ -10,9 +11,12 @@ import {
 	TableRow,
 } from "./ui/table";
 
-const PaymentsTable = () => {
-	const { data: paymentsData, isPending } = useAllPayments();
+interface Props {
+	paymentsData?: PaymentsResponse;
+	isPending: boolean;
+}
 
+const PaymentsTable = ({ paymentsData, isPending }: Props) => {
 	if (isPending) {
 		return (
 			<div className="flex flex-col items-center justify-center pt-20">
@@ -37,8 +41,8 @@ const PaymentsTable = () => {
 								<TableHead>Payroll Name</TableHead>
 								<TableHead>Employee Name</TableHead>
 								<TableHead>Transaction Date</TableHead>
+								<TableHead>Transaction Type</TableHead>
 								<TableHead>Amount</TableHead>
-								<TableHead>Actions</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -46,7 +50,13 @@ const PaymentsTable = () => {
 								<TableRow key={payement.referenceNumber}>
 									<TableCell>{payement.payrollName}</TableCell>
 									<TableCell>{payement.employeeName}</TableCell>
-									<TableCell>{payement.transactionDateTime}</TableCell>
+									<TableCell>
+										{convertToReadableDate(payement.transactionDateTime)}
+									</TableCell>
+									<TableCell>{payement.transactionType}</TableCell>
+									<TableCell>{`${payement.currency}${formatNumber(
+										payement.amount
+									)}`}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

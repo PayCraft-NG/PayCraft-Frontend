@@ -30,12 +30,22 @@ export function convertToSeconds(timeStr: string): number {
 	return multiplier ? time * multiplier : DEFAULT_TIME;
 }
 
-export const formatNumber = (value: number) => {
-	// Remove non-digit characters
-	const digits = `${value}`.replace(/\D/g, "");
+export const formatNumber = (value: number): string => {
+	// Convert to string and split into integer and decimal parts
+	const [integerPart, decimalPart] = value.toString().split(".");
 
-	// Format the number with commas
-	return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	// Format the integer part with commas
+	const formattedIntegerPart = integerPart.replace(
+		/\B(?=(\d{3})+(?!\d))/g,
+		","
+	);
+
+	// If there's a decimal part, add it back
+	if (decimalPart !== undefined) {
+		return `${formattedIntegerPart}.${decimalPart}`;
+	}
+
+	return formattedIntegerPart;
 };
 
 export const formatCardNumber = (value: string): string => {
@@ -61,4 +71,16 @@ export function maskString(input: string): string {
 	const visiblePart = input.slice(-4);
 
 	return maskedPart + visiblePart;
+}
+
+export function convertToReadableDate(timestamp: string): string {
+	const dt = new Date(timestamp);
+
+	const options: Intl.DateTimeFormatOptions = {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	};
+
+	return dt.toLocaleDateString("en-US", options);
 }

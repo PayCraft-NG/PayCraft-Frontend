@@ -88,7 +88,7 @@ const FundWalletForm = () => {
 				<DialogTrigger asChild>
 					<Button
 						size="lg"
-						className="shadow-lg hover:shadow-xl transition-shadow duration-300"
+						className="shadow-lg hover:shadow-xl transition-shadow duration-300 px-4"
 					>
 						<PlusCircle className="mr-2 h-4 w-4" />
 						Fund Wallet
