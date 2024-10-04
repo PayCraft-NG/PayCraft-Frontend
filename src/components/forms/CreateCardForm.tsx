@@ -48,6 +48,7 @@ const CreateCardForm = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<CardForm>({
 		mode: "onChange",
@@ -60,6 +61,7 @@ const CreateCardForm = () => {
 
 	const onSubmit = (data: CardForm) => {
 		console.log(data);
+		reset();
 		createCard(data, {
 			onSettled: () => setIsOpen(false),
 		});
